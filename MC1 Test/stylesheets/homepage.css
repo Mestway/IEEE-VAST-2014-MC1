@@ -1,0 +1,11 @@
+#resume_chart {
+	width: 60%;
+	float:left;
+}
+
+#text_board {
+	width: 33%;
+	padding-right:15pt;
+	float:right;
+	text-align: center;
+}

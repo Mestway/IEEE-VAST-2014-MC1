@@ -1,0 +1,821 @@
+[
+    {
+        "name": "Ada Campo-Corrente",
+        "experience": [
+            {
+                "position": "CIO",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech",
+                "description": " she is responsible for all the information management needs of the complex research and development and operation requirements of GASTech"
+            },
+            {
+                "position": "",
+                "start": "-1",
+                "end": "20040000",
+                "location": "University of Tethys",
+                "description": "she worked in the Information Management field for the University of Tethys."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Bertrand Ovan",
+        "experience": [
+            {
+                "position": "",
+                "start": "19820000",
+                "end": "19980000",
+                "location": "Tethan Defense Forces",
+                "description": "Retiring rank : Major"
+            },
+            {
+                "position": "Facilities Team Leader",
+                "start": "19980000",
+                "end": "20030000",
+                "location": "GASTech - Kronos",
+                "description": ""
+            },
+            {
+                "position": "Facilities Group Manager ",
+                "start": "20030000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Good efficiency and knowledge in employing best business practices to ensure that the services and processes supporting the organization go on smoothly.",
+            "A high level of professionalism, integrity, and discretion in handling sensitive information.",
+            "Capable of managing all facilities efficiently – Well-versed with project management activities, time management and team leadership.",
+            "Comfortable working in a fast-paced environment – Good communication and interpersonal skills.",
+            "Understanding of current best practices for building operations and support."
+        ]
+    },
+    {
+        "name": "Carla Forluniau",
+        "experience": [
+            {
+                "position": "",
+                "start": "-1",
+                "end": "19990000",
+                "location": "Armed Forces of Kronos",
+                "description": "Specialized in coordination of large group events, such as training and deployment."
+            },
+            {
+                "position": "Administrative Assistant",
+                "start": "20000000",
+                "end": "20100000",
+                "location": "Onda, Inc. - Kronos",
+                "description": "Provided a wide range of administrative support for Onda Incorporated. Skilled user at required office software suites, MS Office and internal tools. Processed requisitions for materials to be moved from branch to branch."
+            },
+            {
+                "position": "Administrative Assistant",
+                "start": "20050000",
+                "end": "20140121",
+                "location": "GASTech – Kronos",
+                "description": "Administrative support of the Information Technology group at GASTech, Kronos headquarters. Management support of both the group manager and of the staff in the group.  This includes support for travel, teleconferences, training and calendaring. Participate in vendor calls and visits.  Ensure efficient scheduling and facilitate meetings leading to contract agreements."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Claudio Hawelon",
+        "experience": [
+            {
+                "position": "",
+                "start": "20010000",
+                "end": "20030000",
+                "location": "Armed Forces of Kronos",
+                "description": ""
+            },
+            {
+                "position": "Truck Driver",
+                "start": "20030000",
+                "end": "20070000",
+                "location": "On-Time Delivery, Inc.,  Kronos",
+                "description": ""
+            },
+        
+            {
+                "position": "Truck Driver",
+                "start": "20070000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Operated a semi-trailer to transport goods, parts and materials. Assist with load and unloading of product at warehouse and sites using a Pallet Jack and forklift. Maintain trip logs reflecting customer locations and distance traveled and fuel costs. Works effectively in a team support large pickup and delivery operations."
+            }
+        ],
+        "specialty": [
+            "Technically inclines with a proven ability to troubleshoot and repair minor vehicle problems.",
+            "Personable and professional with a strong customer service orientation and problem solving skills.",
+            "Accustomed to working under harsh weather conditions; easily lift and carry more than 50 pounds."
+        ]
+    },
+    {
+        "name": "Cornelia Lais",
+        "experience": [
+            {
+                "position": "",
+                "start": "20090000",
+                "end": "20110000",
+                "location": "Armed Forces of Kronos",
+                "description": "Military Service"
+            },
+            {
+                "position": "Executive Assistant",
+                "start": "20110000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Administrative and business support to the Security Group Manager. Coordinate schedules among multiple personnel that are constantly on the move. Arrange travel and training for all staff in the group."
+            }
+        ],
+        "specialty": [
+            "Hard working and dedicated assistant.",
+            "Strong decision making skills and ability to support multiple staff at the same time.",
+            "Proficient user of all main stream office software, such as MS Office."
+        ]
+    },
+    {
+        "name": "Dante Coginian",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19880000",
+                "end": "19900000",
+                "location": "Abila Community College, Kronos",
+                "description": "Associates Degree, General Studies"
+            },
+            {
+                "position": "",
+                "start": "19900000",
+                "end": "19920000",
+                "location": "Armed Forces of Kronos",
+                "description": ""
+            },
+            {
+                "position": "Janitorial Staff",
+                "start": "19920000",
+                "end": "19950000",
+                "location": "LLX Facility Management, Kronos",
+                "description": ""
+            },
+             {
+                "position": "Janitorial Staff",
+                "start": "19950000",
+                "end": "20000000",
+                "location": "GASTech - Kronos",
+                "description": ""
+            },
+            {
+                "position": "Lead Janitor",
+                "start": "20000000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Twenty years of extensive experience in cleaning.",
+            "Detail oriented with expected initiative.",
+            "Strong leadership and mentoring skills.",
+            "Professional conduct, customer service oriented and a strong team player.",
+            "Outstanding organizational and communication skills."]
+    },
+    {
+        "name": "Elsa Orilla",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "20000000",
+                "end": "20040000",
+                "location": "University of Tethys",
+                "description": "BSc Geology"
+            },
+            {
+                "position": "Drilling Technician",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Emile Arpa",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "20090000",
+                "end": "20110000",
+                "location": "Abila Community College, Kronos",
+                "description": "Associates Degree, General Studies"
+            },
+            {
+                "position": "",
+                "start": "20110000",
+                "end": "20120000",
+                "location": "Armed Forces of Kronos ",
+                "description": ""
+            },
+            {
+                "position": "Janitor",
+                "start": "20130000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Hard working",
+            "Can easily lift 50 lbs",
+            "Professional behavior",
+            "Outstanding communication skills"
+        ]
+    },
+    {
+        "name": "Felix Balas",
+        "experience": [
+            {
+                "position": "",
+                "start": "19770000",
+                "end": "19880000",
+                "location": "Tethys Defense Force - Navy",
+                "description": ""
+            },
+            {
+                "position": "Student",
+                "start": "19880000",
+                "end": "19920000",
+                "location": "Tethys University",
+                "description": "BSc Engineering"
+            },
+            {
+                "position": "Engineer",
+                "start": "19920000",
+                "end": "20040000",
+                "location": "Dalekanium Engineering, Ltd., Tethys",
+                "description": ""
+            },
+            {
+                "position": "Research Engineer ",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Conduct multi-Sigma projects to reduce engineering rework, reduce project lead times, improve processes, and improve product quality. Research, development and implementation of all technologies as they apply to improving GASTech proprietary processes."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Felix Resumir",
+        "experience": [
+            {
+                "position": "",
+                "start": "19770000",
+                "end": "19970000",
+                "location": "Tethys Defense Force Army",
+                "description": "Mr. Resumir served 20 years of distinguished service in the Tethys armed forces.  He progress through the ranks retiring at the rank of Major.  He served in multiple capacities but always found his way back to security or force protection duties."
+            },
+            {
+                "position": "Security Operative",
+                "start": "19970000",
+                "end": "20030000",
+                "location": "Tarryn Security – Tethys",
+                "description": "The private security firm of Tarryn Security provides both personal and corporate security to a wide variety of customers.  Mr. Resumir served on both field and operational coordination positions."
+            },
+            {
+                "position": "Security Operative",
+                "start": "20030000",
+                "end": "20050000",
+                "location": "GASTech - Kronos",
+                "description": ""
+            },
+            {
+                "position": "Security Group Manager",
+                "start": "20050000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Mr. Resumir is passionate about providing the best security for all situations.",
+            "He has extensive experience in both military and private situations and looks forward to applying is hard-won knowledge."
+        ]
+    },
+    {
+        "name": "Hideki Cocinaro",
+        "experience": [
+            {
+                "position": "",
+                "start": "19980000",
+                "end": "20101000",
+                "location": "Tethan Defense Force",
+                "description": "Specialized in patrol duty and accepted multiple hazardous deployments."
+            },
+            {
+                "position": "Security Officer",
+                "start": "20100100",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": ["Military certifications in Defensive Driving, Hand-to-Hand Combat, Small Arms Weapons Proficiency."]
+    },
+    {
+        "name": "Irene Nant",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "20020000",
+                "end": "20040000",
+                "location": "Ranulz Community College, Kronos",
+                "description": "Associates Degree, General Studies"
+            },
+            {
+                "position": "",
+                "start": "20040000",
+                "end": "20050000",
+                "location": "Armed Forces of Kronos",
+                "description": ""
+            },
+            {
+                "position": "Delivery Services; Warehouse Freight Handler",
+                "start": "20050000",
+                "end": "20080000",
+                "location": "Hernandez Retail Services,  Kronos",
+                "description": "Ms. Nant’s responsibilities included intake of freight and maintenance of the inventory listings for the warehouse.  She then transitioned to delivering the freight to contracted retail locations. She kept prompt delivery schedules and often helped in offloading the deliveries."
+            },
+            {
+                "position": "Truck Driver",
+                "start": "20080000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Possess a strong work ethic and excellent driving record, stable work history and credible references.",
+            "Knowledgeable of safety regulations and map reading procedures. ",
+            "Recognized for ability to plan, organize and coordinate priorities in an expedient manner."
+        ]
+    },
+    {
+        "name": "Isak Baza",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19960000",
+                "end": "20000000",
+                "location": "Tethys University",
+                "description": "Bachelor of Science, Computer Science"
+            },
+            {
+                "position": "Helpdesk Technician",
+                "start": "20000000",
+                "end": "20020000",
+                "location": "Pharma, Inc – Tethys",
+                "description": ""
+            },
+            {
+                "position": "Information Technology Technician",
+                "start": "20020000",
+                "end": "20140121",
+                "location": "GASTech – Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Experienced and knowledgeable Information Technology Professional seeking to contribute training and acquired skills within a Tier One Technical Support and/or Help Desk role. ",
+            "Works well independently, or in a group setting providing all facets of computer support such as troubleshooting, installations, and maintenance. ",
+            "In-depth knowledge and understanding of numerous software packages and operating systems. ",
+            "Skilled in providing Customer and End-User Help Desk Support. ",
+            "Easily identify and resolve technical issues and concerns.",
+            "Excellent communication and presentation capabilities."
+       ]
+    },
+    {
+        "name": "Isande Borrasca",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19970000",
+                "end": "20010000",
+                "location": "Tethys University",
+                "description": "BSc Geology"
+            },
+            {
+                "position": "Drilling Technician",
+                "start": "20000000",
+                "end": "20040000",
+                "location": "TO&G – Tethys",
+                "description": "Significant field work from establishing the site to supporting daily operations."
+            },
+            {
+                "position": "Senior Drilling Technician",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Roles have included drilling engineer, project manager, and onsite supervision. Highly successful in drilling and completion engineering design, team building, project management and operations.
+"
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Isia Vann",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "20030000",
+                "end": "20050000",
+                "location": "Abila Community College",
+                "description": "Associates Degree – Basic Studies"
+            },
+            {
+                "position": "",
+                "start": "20050000",
+                "end": "20070000",
+                "location": "Armed Forces of Kronos",
+                "description": ""
+            },
+            {
+                "position": "Security Officer",
+                "start": "20070000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": [
+            "Responsible worker with strong decision making skills",
+            "Team player", 
+            "Committed to ensuring the client’s security priorities are number one."
+        ]
+    },
+    {
+        "name": "Lars Azada",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19910000",
+                "end": "19950000",
+                "location": "Tethys University",
+                "description": "BSc Chemical Engineering"
+            },
+            {
+                "position": "",
+                "start": "19950000",
+                "end": "19950000",
+                "location": "Tethys Defense Force ",
+                "description": ""
+            },
+            {
+                "position": "Research Engineer",
+                "start": "19950000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Mr. Azada supports a wide variety of projects for the Engineering group at the Kronos headquarters of GASTech, a leader in drilling and natural gas production.  His responsibilities include design input on novel drilling and transport technologies. Also included in his responsibilities is initial design review of proposed projects.
+"
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Lidelse Dedos",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "",
+                "end": "",
+                "location": "Tethys School of Mining and Engineering",
+                "description": "BSc Civil Engineering"
+            },
+            {
+                "position": "Student",
+                "start": "19840000",
+                "end": "19870000",
+                "location": "Tethys University",
+                "description": "Masters Civil Engineering"
+            },
+            {
+                "position": "Civil Engineer",
+                "start": "19870000",
+                "end": "19990000",
+                "location": "G&A Engineering, Ltd.",
+                "description": ""
+            },
+            {
+                "position": "Engineering Manager",
+                "start": "19990000",
+                "end": "20030000",
+                "location": "G&A Engineering, Ltd.",
+                "description": ""
+            },
+            {
+                "position": "Civil Engineer",
+                "start": "19740000",
+                "end": "19840000",
+                "location": "Sanli Engineering",
+                "description": ""
+            },
+            {
+                "position": "Vice President and Board member.",
+                "start": "20000000",
+                "end": "20100000",
+                "location": "Society for Civil Engineers",
+                "description": ""
+            },
+            {
+                "position": "Engineering Group Manager",
+                "start": "20030000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Ms. Dedos is responsible for oversight of all engineering projects planned and coordinated with other sites and divisions.  She also has technical oversight of all projects in the Kronos locale."
+            }
+
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Linda Lagos",
+        "experience": [
+            {
+                "position": "Executive Assistant",
+                "start": "20000000",
+                "end": "20100000",
+                "location": "Bank of Kronos",
+                "description": "Supported multiple senior managers at the headquarters office of the Bank of Kronos."
+            },
+            {
+                "position": "Senior Executive Assistant",
+                "start": "20100000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Administrative support to the COO of GASTech, Kronos headquarters."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Linnea Bergen",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19880000",
+                "end": "19920000",
+                "location": "Barrington University,  Tethys",
+                "description": "BSc Computer Science"
+            },
+            {
+                "position": "Information Technology Specialist",
+                "start": "19920000",
+                "end": "20040000",
+                "location": "IT4U - Tethys",
+                "description": ""
+            },
+            {
+                "position": "Information Technology Specialist",
+                "start": "20040000",
+                "end": "20080000",
+                "location": "GASTech - Kronos",
+                "description": ""
+            },
+            {
+                "position": "Group Manager",
+                "start": "20080000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Loreto Bodrogi",
+        "experience": [
+            {
+                "position": "",
+                "start": "20060000",
+                "end": "20080000",
+                "location": "Armed Forces of Kronos",
+                "description": "Excellent self-defense skills."
+            },
+            {
+                "position": "Security Guard",
+                "start": "20080000",
+                "end": "20130000",
+                "location": "RQS Security",
+                "description": "Report on activities on a nightly basis. Completed multiple short-term security assignments for clients of RQS.
+"
+            },
+            {
+                "position": "Student",
+                "start": "20080000",
+                "end": "20110000",
+                "location": "Abila Community College",
+                "description": "Associates Degree – Basic Studies"
+            },
+            {
+                "position": "Security Officer",
+                "start": "20130000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Lucas Alcazar",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "-1",
+                "end": "-1",
+                "location": "IT Tech University, Tethys",
+                "description": "Associates Degree – Business and Computer studies"
+            },
+            {
+                "position": "Helpdesk Consultant",
+                "start": "20100000",
+                "end": "20140121",
+                "location": "GASTech – Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Marin Onda",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19880000",
+                "end": "19920000",
+                "location": "Tethys University",
+                "description": "BSc Geology"
+            },
+            {
+                "position": "Student",
+                "start": "19920000",
+                "end": "19960000",
+                "location": "Tethys University",
+                "description": "Masters Geology"
+            },
+            {
+                "position": "Geologist",
+                "start": "20030000",
+                "end": "20060000",
+                "location": "GASTech - Kronos",
+                "description": "He is technically well-versed in all substrate extraction techniques."
+            },
+            {
+                "position": "Site Manager",
+                "start": "20060000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "His duties include scientific oversight of planned operations, schedule and budget management for new activities and staff management."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Minke Mies",
+        "experience": [
+            {
+                "position": "",
+                "start": "20090000",
+                "end": "20110000",
+                "location": "Armed Forces of Kronos",
+                "description": "Specialized in security procedures and defensive driving."
+            },
+            {
+                "position": "Security Guard",
+                "start": "20110000",
+                "end": "20130000",
+                "location": "Bank of Kronos",
+                "description": ""
+            },
+            {
+                "position": "Security Officer",
+                "start": "20130000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Nils Calixto",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "20000000",
+                "end": "20040000",
+                "location": "Tethys University",
+                "description": "Bachelor of Science, Computer and Information Technology"
+            },
+            {
+                "position": "Information Technology Technician",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech – Kronos",
+                "description": ""
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Rachel Panatal",
+        "experience": [
+            {
+                "position": "Executive Assistant",
+                "start": "20040000",
+                "end": "20130000",
+                "location": "XYZ Manufacturing",
+                "description": ""
+            },
+            {
+                "position": "GASTech - Kronos",
+                "start": "20130000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Provide administrative and business support to the CIO of GASTech, Kronos headquarters."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Stenig Fusil",
+        "experience": [
+            {
+                "position": "Student",
+                "start": "19800000",
+                "end": "19820000",
+                "location": "Tethys Community College",
+                "description": "Associates Degree – General Studies"
+            },
+            {
+                "position": "",
+                "start": "19820000",
+                "end": "19870000",
+                "location": "Tethan Defense Force",
+                "description": "Specialized in Military Law Enforcement."
+            },
+            {
+                "position": "Deputy Sheriff",
+                "start": "19870000",
+                "end": "19970000",
+                "location": "Srithal County, Tethys",
+                "description": ""
+            },
+            {
+                "position": "Security Officer",
+                "start": "19970000",
+                "end": "20040000",
+                "location": "Myxllink, Ltd., Tethys",
+                "description": "Trained customer staff and security personnel in the implementation of security procedures"
+            },
+            {
+                "position": "Security Team Leader",
+                "start": "20040000",
+                "end": "20140121",
+                "location": "GASTech - Kronos",
+                "description": "Responsible for continued training of security staff supporting both headquarters and regional sites.Field rated; responsible for patrol checks, dealing with infractions and incidents, and day to day enforcement."
+            }
+        ],
+        "specialty": []
+    },
+    {
+        "name": "Sven Flecha",
+        "experience": [
+             {
+                "position": "Student",
+                "start": "-1",
+                "end": "20070000",
+                "location": "Tethys University",
+                "description": "Bachelor of Science, Information Technology"
+            },
+            {
+                "position": "IT Technician",
+                "start": "20070000",
+                "end": "20100000",
+                "location": "Department of Commerce, Tethys",
+                "description": "Administered all local and remote server backups."
+            },
+            {
+                "position": "Information Technology Technician",
+                "start": "20100000",
+                "end": "20140121",
+                "location": "GASTech – Kronos",
+                "description": "Administer core business servers (Active Directory), client workstations, and network security devices."
+            }
+        ],
+        "specialty": []
+    },
+
+]
