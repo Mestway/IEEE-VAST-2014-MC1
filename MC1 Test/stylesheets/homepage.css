@@ -1,5 +1,5 @@
 /* up and down version */
-#resume_chart {
+/*#resume_chart {
 	width: 1600px;
 	float:left;
 }
@@ -10,19 +10,19 @@
 	float:left;
 	text-align: center;
 }
+*/
 
 
 /* left and right version */
-/*
-	#resume_chart {
-		width: 60%;
-		float:left;
-	}
 
-	#text_board {
-		width: 35%;
-		padding-right:15pt;
-		float:right;
-		text-align: center;
-	}
-*/
+#resume_chart {
+	width: 60%;
+	float:left;
+}
+
+#text_board {
+	width: 35%;
+	padding-right:15pt;
+	float:right;
+	text-align: center;
+}

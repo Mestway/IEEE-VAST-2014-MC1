@@ -475,9 +475,8 @@ function generateTable(data) {
 
     var table = $('#text_table').DataTable( {
         "data": data,
-        "scrollY":        550,
-        "scrollX": false,
-        //"scrollCollapse": true,
+        "scrollY": 600,
+        "scrollCollapse": true,
         "paging":         false,
         "columns": [
             {
@@ -487,7 +486,7 @@ function generateTable(data) {
                 "defaultContent": '',
             },
             { "data": "id", "title" : "ID"},
-            { "data": "name", "title" : "Name", "class" : "" },
+            { "data": "name", "title" : "Name", "class" : "table_name" },
             { "data": "Gender", "title": "Gender" },
             { "data": "CurrentEmploymentTitle", "title" : "Title" },
             { "data": "CurrentEmploymentType", "title": "Employ-Type"},
@@ -513,7 +512,35 @@ function generateTable(data) {
         }
     } );
 
-    $('#text_table')
+    $('#text_table tbody tr')
+        .each(function() {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+            var dt = row.data();
+            $(this).attr("id", "table_tr_" + dt.id);
+        });
+
+    $('#text_table tbody .table_name')
+        .on("click", function() {
+            var tr = $(this).closest('tr');
+            var row = table.row( tr );
+            checkboxClick(row.data());
+        });
+
+     $('#text_table tbody .table_name')
+        .on("mouseover", function() {
+            $(this)
+            .css("text-decoration", "underline")
+            .css("color", "green")
+            .css("cursor","pointer");
+        })
+        .on("mouseout", function() {
+            $(this)
+            .css("text-decoration", "none")
+            .css("color", "black");
+        });
+
+    $('#text_table').css("font-size", "12px");
 }
 
 function date2str(x,y) {
@@ -528,7 +555,7 @@ function format ( d ) {
     var result = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
     for (var i = 0; i < d.experience.length; i ++) {
         var this_row = "";
-        this_row += "<tr>";
+        this_row += "<tr uid=" + d.id + " eid=" + d.i + ">";
         this_row += "<td>" + d.experience[i].position + "</td>";
         this_row += "<td>" + d.experience[i].location + "</td>";
         var sdate = new Date(d.experience[i].start * 1000);
@@ -576,7 +603,7 @@ d3.select("#hello")
         $("#resume_chart").css("width", "60%");
         $("#resume_board").css("width", "33%")
             .css("float", "right");
-        location.reload();
+        expandTableExperience(0);
     });
 
 
@@ -626,7 +653,7 @@ $("#resume_filter > #undo_button")
 // listener for redo button
 $("#resume_filter > #redo_button")
     .attr("class", "button")
-    .click(function() {
+    .on("click", function() {
         if (dataStackBackward.length == 0)
             return;
         dataStack.push(asyncData);
@@ -643,11 +670,13 @@ function checkboxClick(d) {
         $(".focus > .name[uid=" + d.id + "]")
             .css("fill", "blue")
             .css("font-weight", "bold");
+        highlightTableRow(d.id);
     } else {
         $("#checkbox" + d.id).attr("fill", "transparent");
         $(".focus > .name[uid=" + d.id + "]")
             .css("fill", "black")
             .css("font-weight", "normal");
+        dehighlightTableRow(d.id);
     }
 }
 
@@ -666,8 +695,8 @@ function experienceClick(d) {
         highlightExperience(d.id, d.eid);
         if ($(".focus > #checkbox" + d.id).attr("ckted") == 0)
             checkboxClick(getAsyncData(d.id));
-    }  {
-        removeHighlight(d.id, d.eid);
+    } else {
+        dighlightExperience(d.id, d.eid);
     }
 }
 
@@ -675,6 +704,50 @@ function highlightExperience(uid, eid) {
     $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "2pt");
 }
 
-function removeHighlight(uid, eid) {
+function dehighlightExperience(uid, eid) {
     $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "0.5pt");
+}
+
+// highlight the table rows
+function highlightTableRow(id) {
+    $("#table_tr_" + id).attr("original_background", $("#table_tr_" + id).css("background-color"));
+
+    $("#table_tr_" + id)
+        .css('background-color', "rgba(255, 0, 0, 0.3)");
+}
+
+function dehighlightTableRow(id) {
+    $("#table_tr_" + id)
+        .css("background-color", $("#table_tr_" + id).attr("original_background"));
+}
+
+
+//Actions for experiences
+// Expand on Table
+function expandTableExperience(id) {
+    var tr = $("#table_tr_" + id);
+    var table = $('#text_table').DataTable();
+    var row = table.row( tr );
+ 
+    if ( row.child.isShown() ) {
+        // This row is already open
+        return;
+    } else {
+        // Open this row
+        row.child( format(row.data()) ).show();
+        //console.log(row.data());
+        tr.addClass('shown');
+    }
+}
+
+function closeTableExperience(id) {
+    var tr = $("#table_tr_" + id);
+    var table = $('#text_table').DataTable();
+    var row = table.row( tr );
+ 
+    if ( row.child.isShown() ) {
+        // This row is open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    }
 }
