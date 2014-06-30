@@ -4,8 +4,8 @@ var div_width = $("#resume_chart").width();
 var focusHeight = 630;
 var contextHeight = focusHeight + 70;
 
-var margin = {top: 10, right: 10, bottom: 100, left: 40},
-    margin2 = {top: focusHeight, right: 10, bottom: 20, left: 40},
+var margin = {top: 10, right: 120, bottom: 100, left: 20},
+    margin2 = {top: focusHeight, right: 120, bottom: 20, left: 20},
     width = div_width - margin.left - margin.right,
     height = contextHeight - margin.top - margin.bottom,
     height2 = contextHeight - margin2.top - margin2.bottom;
@@ -48,25 +48,44 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
+// Global Data
+//data
+var asyncData = [];
+var dataStack = new Array();
+var dataStackBackward = new Array();
+
+
 // when we brush the "context" part, we will invoke this function to build "focus" graph
 function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
 
     focus.selectAll(".employ_circle")
         .attr("cx", function(d) {
-            return x(new Date(d.CurrentEmploymentStartDate * 1000));
+            var cx = x(new Date(d.CurrentEmploymentStartDate * 1000));
+
+             if (cx > 0 && cx < width) {
+                return cx;
+            }
+            else return -100;
         });
+
     focus.selectAll(".force_circle")
         .attr("cx", function(d) {
-            return x(new Date(d.forceDischarge * 1000));
+            var cx = x(new Date(d.forceDischarge * 1000));
+
+            if (cx > 0 && cx < width) {
+                return cx;
+            }
+            else return -100;
         });
 
     focus.selectAll(".experience")
         .attr("transform", function(d) { 
             var l = x(new Date(d.start * 1000));
             if (l < 0) l = 0;
+            //if (r > width) r = width;
 
-            return  "translate(" + l + "," + (y(d.id + 1) - $(".focus > .experience").attr("height")/2) + ")";
+            return  "translate(" + l + "," + (y(d.pos + 1) - $(".focus > .experience").attr("height")/2) + ")";
         })
         .attr("width", function(d) {
             var l = x(new Date(d.start * 1000));
@@ -76,6 +95,11 @@ function brushed() {
                 l = 0;
             if (r < 0)
                 r = 0;
+            
+            if (r > width) r = width;
+
+            if (r - l < 0)
+                return 0;
 
             return r - l;
         })
@@ -95,18 +119,13 @@ function update2max(a, b) {
 	else return a;
 }
 
-//Only used for test
-var asyncData = [];
-
 // read the data from json file
 d3.json("resumev3.json", function(error, rawData) {
 
     //generate id for each person
     var data = dataProcessor(rawData);
 
-    for (var i = 0; i < 7; i ++) {
-        asyncData.push(data[i]);
-    }
+
 
 	var minDate = 9999999999;
 	var maxDate = 1390262400;
@@ -167,6 +186,11 @@ d3.json("resumev3.json", function(error, rawData) {
     .attr("y", -6)
     .attr("height", height2 + 7);
 
+    asyncData = data;
+    for (var i = 0; i < data.length; i ++) {
+        data.pos = i;
+    }
+
     generateTable(data);
     // draw three different parts
     drawGridLine(data, x, y);
@@ -174,6 +198,8 @@ d3.json("resumev3.json", function(error, rawData) {
     drawAllExperience(data, focus, x, y, height, true);
     drawFocusCircle(data, x, y);
     drawContextCircle(data, x2, y2);
+    drawCheckBox(data, x, y);
+    drawName(data, x, y);
 });
 
 function dataProcessor(data) {
@@ -247,7 +273,7 @@ function drawContextCircle(data, scaleX, scaleY) {
         .enter()
         .append("circle")
         .attr("class", "employ_circle")
-        .attr("r", "2")
+        .attr("r", "1")
         .attr("cx", function(d) {
             return scaleX(new Date(d.CurrentEmploymentStartDate * 1000));
         })
@@ -266,7 +292,7 @@ function drawContextCircle(data, scaleX, scaleY) {
         .data(forceData)
         .enter()
         .append("circle")
-        .attr("r", "2")
+        .attr("r", "1")
         .attr("class", "force_circle")
         .attr("cx", function(d) {
             return scaleX(new Date(d.forceDischarge * 1000));
@@ -287,7 +313,7 @@ function drawFocusCircle(data, scaleX, scaleY) {
         .enter()
         .append("circle")
         .attr("class", "employ_circle")
-        .attr("r", ht/2)
+        .attr("r", ht/3)
         .attr("cx", function(d) {
             return scaleX(new Date(d.CurrentEmploymentStartDate * 1000));
         })
@@ -307,7 +333,7 @@ function drawFocusCircle(data, scaleX, scaleY) {
         .enter()
         .append("circle")
         .attr("class", "force_circle")
-        .attr("r", ht/2)
+        .attr("r", ht/3)
         .attr("cx", function(d) {
             return scaleX(new Date(d.forceDischarge * 1000));
         })
@@ -327,14 +353,17 @@ function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
 
     var exps = [];
     for (var i = 0; i < data.length; i ++) {
-        for (var j = 0; j < data[i].experience.length; j ++) {
+        for (var j = data[i].experience.length - 1; j >= 0; j --) {
             var tempExp = data[i].experience[j];
             tempExp.id = data[i].id;
+            tempExp.pos = data[i].pos;
             exps.push(tempExp);
         }
     }
 
-    var ht = height * 0.5 / data.length;
+    var localHt = height * 0.5 / data.length;
+    if (targetClass == "focus")
+        localHt = ht;
 
     target.selectAll(".experience")
         .data(exps)
@@ -344,17 +373,18 @@ function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
         .attr("eid", function(d) { return d.eid; })
         .attr("class", "experience")
         .attr("transform", function(d) {
-            return  "translate(" + scaleX(new Date(d.start * 1000)) + "," + (scaleY(d.id + 1) - ht/2) + ")";
+            return  "translate(" + scaleX(new Date(d.start * 1000)) + "," + (scaleY(d.pos + 1) - ht/2) + ")";
         })
         .attr("width", function(d) {
             var l = scaleX(new Date(d.start * 1000));
             var r = scaleX(new Date(d.end * 1000));
             return r - l;
         })
-        .attr("height", ht)
+        .attr("height", localHt)
+        .attr("slcted", 0)
         .style("stroke-width", function() {
             if (useStroke)
-                return 1;
+                return 0.5;
             else 
                 return 0;
         })
@@ -377,28 +407,91 @@ function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
             d.genre = "work";
             return "gray";
         })
-        .on("click", selectRect);
+        .on("click", experienceClick);
+}
+
+function drawCheckBox(data, scaleX, scaleY) {
+
+    $(".focus > .checkbox").remove();
+
+    focus.selectAll(".checkbox")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("class", "checkbox")
+        .attr("x", -20)
+        .attr("y", function (d) {
+            return (scaleY(d.pos + 1) - ht/2);
+        })
+        .attr("width", ht)
+        .attr("height", ht)
+        .attr("id", function(d) {
+            return "checkbox" + d.id;
+        })
+        .attr("ckted", 0)
+        .attr("stroke", "black")
+        .attr("fill", "transparent")
+        .on("click", checkboxClick);
+}
+
+function drawName(data, scaleX, scaleY) {
+    $(".focus > .name").remove();
+    focus.selectAll(".name")
+        .data(data)
+        .enter()
+        .append("text")
+        .attr("class", "name")
+        .attr("uid", function(d) {
+            return d.id;
+        })
+        .attr("x", width + 5)
+        .attr("y", function(d) {
+            return scaleY(d.pos + 1) + ht/2;
+        })
+        .style("font-size", ht)
+        .style("font-family", "Verdana")
+        .text(function(d) {
+            return d.name;
+        })
+        .on("mouseover", function(d) {
+            $(".focus > .name[uid=" + d.id + "]")
+            .css("fill", "blue")
+            .css("cursor","pointer");
+        })
+        .on("mouseout", function(d) {
+            //console.log($(".focus > #checkbox" + d.id).attr("ckted"));
+            if ($(".focus > #checkbox" + d.id).attr("ckted") == 0) {
+                $(".focus > .name[uid=" + d.id + "]").css("fill", "black");
+            }
+        })
+        .on("click", nameClick);
 }
 
 function generateTable(data) {
 
     $("#text_board").empty();
     $("#text_board").append("<table id=\"text_table\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>");
+    //$("#text_board").append("<thead><tr><th></th><th>ID</th><th>Name</th><th>Gender</th><th>Title</th><th>Type</th><th>E-mail</th></tr></thead>");
 
     var table = $('#text_table').DataTable( {
         "data": data,
+        "scrollY":        550,
+        "scrollX": false,
+        //"scrollCollapse": true,
+        "paging":         false,
         "columns": [
             {
                 "class":          'details-control',
                 "orderable":      false,
                 "data":           null,
-                "defaultContent": ''
+                "defaultContent": '',
             },
-            { "data": "name" },
-            { "data": "Gender" },
-            { "data": "CurrentEmploymentTitle" },
-            { "data": "CurrentEmploymentType"},
-            { "data": "EmailAddress" }
+            { "data": "id", "title" : "ID"},
+            { "data": "name", "title" : "Name", "class" : "" },
+            { "data": "Gender", "title": "Gender" },
+            { "data": "CurrentEmploymentTitle", "title" : "Title" },
+            { "data": "CurrentEmploymentType", "title": "Employ-Type"},
+            { "data": "EmailAddress", "title": "E-mail" }
         ],
         "order": [[1, 'asc']]
     });
@@ -415,17 +508,12 @@ function generateTable(data) {
         else {
             // Open this row
             row.child( format(row.data()) ).show();
+            //console.log(row.data());
             tr.addClass('shown');
         }
     } );
-}
 
-function selectRect(d) {
-    // Add event listener for opening and closing details
-    //var table = $("#text_table").DataTable();
-    console.log(d);
-    $("#text_board").empty();
-    $("#text_board").append("<table id=\"text_table\" class=\"display\" cellspacing=\"0\" width=\"100%\"></table>");
+    $('#text_table')
 }
 
 function date2str(x,y) {
@@ -456,14 +544,6 @@ function format ( d ) {
     return result;
 }
 
-/* For test purpose */
-d3.select("#hello")
-    .on("click", function() {
-        console.log("Hello World!");
-        reDrawDiagram(asyncData);
-        
-    });
-
 function reDrawDiagram(data) {
 
     // reset the scale domain
@@ -486,4 +566,115 @@ function reDrawDiagram(data) {
     drawAllExperience(data, focus, x, yp, height, true);
     drawContextCircle(data, x2, yp2);
     drawFocusCircle(data, x, yp);
+    drawCheckBox(data, x, yp);
+    drawName(data, x, yp);
+}
+
+/* For test purpose */
+d3.select("#hello")
+    .on("click", function() {
+        $("#resume_chart").css("width", "60%");
+        $("#resume_board").css("width", "33%")
+            .css("float", "right");
+        location.reload();
+    });
+
+
+// some "library functions"
+function getAsyncData(id) {
+    for (var i = 0; i < asyncData.length; i ++) {
+        if (asyncData[i].id == id)
+            return asyncData[i];
+    }
+    return null;
+}
+
+// Actions
+// listener for submission button
+$("#resume_filter > #submit_button")
+    .attr("class", "button")
+    .click(function () {
+        dataStack.push(asyncData);
+        asyncData = [];
+
+        d3.select(".focus")
+            .selectAll(".checkbox")
+            .each(function(d){
+                if ($("#checkbox" + d.id).attr("ckted") == 1) {
+                    asyncData.push(d);
+                }
+            });
+
+        for (var i = 0; i < asyncData.length; i ++) {
+            asyncData[i].pos = i;
+        }
+        reDrawDiagram(asyncData);
+        dataStackBackward = [];
+    });
+
+// listener for undo button
+$("#resume_filter > #undo_button")
+    .attr("class", "button")
+    .click(function() {
+        if (dataStack.length == 0)
+            return;
+        dataStackBackward.push(asyncData);
+        asyncData = dataStack.pop();
+        reDrawDiagram(asyncData);
+    });
+
+// listener for redo button
+$("#resume_filter > #redo_button")
+    .attr("class", "button")
+    .click(function() {
+        if (dataStackBackward.length == 0)
+            return;
+        dataStack.push(asyncData);
+        asyncData = dataStackBackward.pop();
+        reDrawDiagram(asyncData);
+    });
+
+// listener for click on checkbox 
+function checkboxClick(d) {
+    $("#checkbox" + d.id).attr("ckted",1-$("#checkbox"+d.id).attr("ckted"));
+
+    if ($("#checkbox" + d.id).attr("ckted") == 1) {
+        $("#checkbox" + d.id).attr("fill", "black");
+        $(".focus > .name[uid=" + d.id + "]")
+            .css("fill", "blue")
+            .css("font-weight", "bold");
+    } else {
+        $("#checkbox" + d.id).attr("fill", "transparent");
+        $(".focus > .name[uid=" + d.id + "]")
+            .css("fill", "black")
+            .css("font-weight", "normal");
+    }
+}
+
+function nameClick(d) {
+    checkboxClick(d);
+}
+
+// listener for click on experience rect
+function experienceClick(d) {
+    // Add event listener for opening and closing details
+    //var table = $("#text_table").DataTable();
+    var BSelected = 1 - $(".experience[uid=" + d.id + "][eid=" + d.eid + "]").attr("slcted");
+    $(".experience[uid=" + d.id + "][eid=" + d.eid + "]").attr("slcted", BSelected);
+
+    if (BSelected) {
+        highlightExperience(d.id, d.eid);
+        if ($(".focus > #checkbox" + d.id).attr("ckted") == 0)
+            checkboxClick(getAsyncData(d.id));
+    }  {
+        removeHighlight(d.id, d.eid);
+    }
+}
+
+function highlightExperience(uid, eid) {
+    $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "2pt");
+}
+
+function removeHighlight(uid, eid) {
+    $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "0.5pt");
 }

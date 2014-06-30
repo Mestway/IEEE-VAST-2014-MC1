@@ -1,11 +1,28 @@
+/* up and down version */
 #resume_chart {
-	width: 60%;
+	width: 1600px;
 	float:left;
 }
 
 #text_board {
-	width: 33%;
+	width: 1600px;
 	padding-right:15pt;
-	float:right;
+	float:left;
 	text-align: center;
 }
+
+
+/* left and right version */
+/*
+	#resume_chart {
+		width: 60%;
+		float:left;
+	}
+
+	#text_board {
+		width: 35%;
+		padding-right:15pt;
+		float:right;
+		text-align: center;
+	}
+*/
