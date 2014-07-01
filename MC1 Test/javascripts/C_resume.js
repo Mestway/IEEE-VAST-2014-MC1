@@ -25,6 +25,14 @@ var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y2).orient("left");
 
+/*  
+    0 -- disable
+    1 -- disable
+    2 -- location
+    3 -- title
+*/
+var autoSelection = 0;
+
 // brush for context
 var brush = d3.svg.brush()
     .x(x2)
@@ -555,7 +563,7 @@ function format ( d ) {
     var result = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
     for (var i = 0; i < d.experience.length; i ++) {
         var this_row = "";
-        this_row += "<tr uid=" + d.id + " eid=" + d.i + ">";
+        this_row += "<tr class='table_experience' uid=" + d.id + " eid=" + i + ">";
         this_row += "<td>" + d.experience[i].position + "</td>";
         this_row += "<td>" + d.experience[i].location + "</td>";
         var sdate = new Date(d.experience[i].start * 1000);
@@ -600,12 +608,8 @@ function reDrawDiagram(data) {
 /* For test purpose */
 d3.select("#hello")
     .on("click", function() {
-        $("#resume_chart").css("width", "60%");
-        $("#resume_board").css("width", "33%")
-            .css("float", "right");
-        expandTableExperience(0);
+        console.log("good!");
     });
-
 
 // some "library functions"
 function getAsyncData(id) {
@@ -616,10 +620,18 @@ function getAsyncData(id) {
     return null;
 }
 
+function getAsyncExp(uid, eid) {
+    for (var i = 0; i < asyncData.length; i ++) {
+        if (asyncData[i].id == uid) {
+            return asyncData[i].experience[eid];
+        }
+    }
+    return null;
+}
+
 // Actions
 // listener for submission button
 $("#resume_filter > #submit_button")
-    .attr("class", "button")
     .click(function () {
         dataStack.push(asyncData);
         asyncData = [];
@@ -641,7 +653,6 @@ $("#resume_filter > #submit_button")
 
 // listener for undo button
 $("#resume_filter > #undo_button")
-    .attr("class", "button")
     .click(function() {
         if (dataStack.length == 0)
             return;
@@ -652,13 +663,18 @@ $("#resume_filter > #undo_button")
 
 // listener for redo button
 $("#resume_filter > #redo_button")
-    .attr("class", "button")
     .on("click", function() {
         if (dataStackBackward.length == 0)
             return;
         dataStack.push(asyncData);
         asyncData = dataStackBackward.pop();
         reDrawDiagram(asyncData);
+    });
+
+// enable or disable overlap query on experience
+$("#resume_filter > #auto_query")
+    .change(function() {
+        autoSelection = $("#auto_query").val();
     });
 
 // listener for click on checkbox 
@@ -692,20 +708,29 @@ function experienceClick(d) {
     $(".experience[uid=" + d.id + "][eid=" + d.eid + "]").attr("slcted", BSelected);
 
     if (BSelected) {
-        highlightExperience(d.id, d.eid);
-        if ($(".focus > #checkbox" + d.id).attr("ckted") == 0)
-            checkboxClick(getAsyncData(d.id));
+        experienceSelected(d.id, d.eid);
     } else {
-        dighlightExperience(d.id, d.eid);
+        dehighlightExperience(d.id, d.eid);
     }
+
+    autoSelectionSwitch(d);
 }
 
+function experienceSelected(uid, eid) {
+    highlightExperience(uid, eid);
+    if ($(".focus > #checkbox" + uid).attr("ckted") == 0)
+        checkboxClick(getAsyncData(uid));
+}
+
+//highlight experience in main diagram
 function highlightExperience(uid, eid) {
     $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "2pt");
+    highlightTableExperience(uid, eid);
 }
 
 function dehighlightExperience(uid, eid) {
     $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "0.5pt");
+    dehighlightTableExperience(uid, eid);
 }
 
 // highlight the table rows
@@ -720,7 +745,6 @@ function dehighlightTableRow(id) {
     $("#table_tr_" + id)
         .css("background-color", $("#table_tr_" + id).attr("original_background"));
 }
-
 
 //Actions for experiences
 // Expand on Table
@@ -749,5 +773,52 @@ function closeTableExperience(id) {
         // This row is open - close it
         row.child.hide();
         tr.removeClass('shown');
+    }
+}
+
+// highlight and dehighlight experiences in the table
+function highlightTableExperience(uid, eid) {
+    expandTableExperience(uid);
+    $(".table_experience[uid=" + uid + "][eid=" + eid + "]")
+        .attr("original_background",  $(".table_experience[uid=" + uid + "][eid=" + eid + "]").css("background-color"));
+
+    var colorString = $(".experience[uid=" + uid + "][eid=" + eid + "]").css("fill");
+    colorString = "rgba" + colorString.substring(3, colorString.length - 1) + ", 0.2)";
+    console.l
+    $(".table_experience[uid=" + uid + "][eid=" + eid + "]")
+        .css("background-color", colorString);
+}
+
+function dehighlightTableExperience(uid, eid) {
+    $(".table_experience[uid=" + uid + "][eid=" + eid + "]")
+        .css("background-color", $(".table_experience[uid=" + uid + "][eid=" + eid + "]").attr("original_background"));
+}
+
+// auto selection functions
+function autoSelectionSwitch(d) {
+    if (autoSelection == 2) {
+        autoSelectionByLocation(d.location);
+    } else if (autoSelection == 3) {
+        autoSelectionByTitle(d.position);
+    }
+}
+
+function autoSelectionByLocation(loc) {
+    for (var i = 0; i < asyncData.length; i ++) {
+        for (var j = 0; j < asyncData[i].experience.length; j ++) {
+            if (asyncData[i].experience[j].location.indexOf(loc) != -1) {
+                experienceSelected(asyncData[i].id, j);
+            }
+        }
+    }
+}
+
+function autoSelectionByTitle(title) {
+    for (var i = 0; i < asyncData.length; i ++) {
+        for (var j = 0; j < asyncData[i].experience.length; j ++) {
+            if (asyncData[i].experience[j].position.indexOf(title) != -1) {
+                experienceSelected(asyncData[i].id, j);
+            }
+        }
     }
 }
