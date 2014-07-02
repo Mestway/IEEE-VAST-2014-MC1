@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+#container {
+    margin-top: 20px;
+    margin-left: 0;
+    margin-right: auto;
+    width: 700px;
+    height: 520px;
+ 
+}
+
+#left-column {
+    width: 120px;
+    float: left;
+    position: absolute;
+}
+
+#right-column {
+    width: 800px;
+    float: right;
+    pointer-events: none;
+}
+
+div.email-timeline {
+    width: 700px;
+    height: 600px;
+    top: 50px;
+    left: 300px;
+    float: left;
+    position: absolute;  
+}
+
+div.email-group {
+    width: 700px;
+    height: 500px;
+    top: 650px;
+    left: 300px;
+    float: left;
+    position: absolute;  
+}
+div.texts {
+    width: 300px;
+    height: 500px;
+    top: 50px;
+    float: left;
+    position: absolute;  
+
+    font-size: 11px;
+}
+
+.hidden {
+	display: none;
+}
+.visible {
+  display: inline;
+}
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.dots {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+
+
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: 0.5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 0px 0px #a6a6a6; 
+  opacity: 0.6; 
+  position: absolute;
+  pointer-events: none;
+}
+
+</style>
+
+
+
+
+<html>
+<body>
+<script src="d3.v3.min.js"></script>
+
+<script>
+  function parseEmailDate(eDate){
+     return d3.time.format("%m/%d/%Y %hh:%mm").parse(eDate);
+  }
+
+  var employee, links, emails, email_group;
+  var selected_people = new Array();
+  var counts;
+  d3.json("EmailHeaders.json", function(error, graph) {
+    employee = graph.nodes;
+    emails = graph.emails;
+    counts = employee.length;
+    links = graph.links;
+    email_group = graph.email_groups;
+  }); 
+
+
+  var color = d3.scale.category20();
+
+  var margin = {top: 100, right: 100, bottom: 100, left: 100},
+  width = 850 - margin.left - margin.right,
+  height = 700 - margin.top - margin.bottom;
+
+  var x = d3.time.scale()
+    //.domain([parseEmailDate("01/06/2014 00:00"), parseEmailDate("01/17/2014 23:59")])
+    .domain([new Date('2014-01-06'), new Date('2014-01-17')])
+    //.domain([new Date, new Date])
+    .nice(d3.time.day)
+    .range([0, width]);
+
+  //x.ticks(d3.time.day,1);
+  //x.tickFormat('%d');
+
+
+
+  var tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "email-timeline")
+    .attr("class", "tooltip");
+
+  var groupName = ["Administration","Engineering","Executive","Facilities","Information Technology","Security"];
+
+  var svg = d3.select("body").append("div")
+    .attr("class", "email-timeline")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append('g')
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var xScale = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .ticks(d3.time.day)
+    .tickFormat(d3.time.format('%d'));
+
+  svg.append("g")
+    .attr("transform", "translate(0," + 200 + ")")
+    .call(xScale);
+
+  var cnt1 = 0, cnt2 = 0;
+
+  d3.json("EmailHeaders.json", function(error, graph) {
+    employee = graph.nodes;
+    emails = graph.emails;
+    counts = employee.length;
+    links = graph.links;
+    email_group = graph.email_groups;
+   
+    svg.append("svg:g").selectAll("circle")
+        .data(graph.nodes)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+          //return (cnt1 ++) * 13;
+          return d.number * 13;
+        })
+        .attr("cy", function(d) {
+          return 10;
+        })
+        .attr("class", "node")
+        .attr("id", function(d) {
+          return "circle-1-" + d.name;
+        })
+        //.attr("r", function(d){
+          //  return Math.sqrt(d.size-120);
+          //})
+        .attr("r", 5)
+        .style("fill", function(d) { return color(d.group); })
+        /*.on("mouseover", function(d, i) {
+          
+
+          var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+          //console.log(mouse[0] + ","+mouse[1]);
+
+         tooltip
+            .classed("hidden", false)
+            .attr("style", "left:"+(mouse[0]+250)+"px;top:"+(mouse[1]+120)+"px")
+            .html(d.name + ": " + groupName[d.group]);
+
+        })
+        .on("mouseout", function(d, i) {
+         tooltip
+            .classed("hidden", true);
+        })*/;
+  /* });
+    d3.json("EmailHeaders.json", function(error, graph) {*/
+      svg.append("svg:g")
+        .selectAll("text")
+         .data(graph.nodes)
+         //.data(employee)
+         .enter()
+         .append("text")
+         .text(function(d) {
+          //console.log(d.number);
+            return d.name + ", " + d.CurrentEmploymentTitle;
+
+         })
+         .attr("x", function(d) {
+          return d.number * 9.2;
+          //return 13;
+         })
+         .attr("dy", function(d) {
+          return d.number * 9.2;
+          //return 13;
+         })
+         .attr("y", function(d) {
+          return 10;
+         })
+        
+          .attr("transform", "rotate(-45)")
+          .style("text-anchor","start")
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "9px")
+         .attr("fill", function(d){
+            return color(d.group);
+         });
+      
+    });
+
+  d3.json("EmailHeaders.json", function(error, graph) {
+    svg.append("svg:g").selectAll("circle")
+        .data(graph.nodes)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+          //return (cnt1 ++) * 13;
+          return d.number * 13;
+        })
+        .attr("cy", function(d) {
+          return 410;
+        })
+        .attr("class", "node")
+        .attr("id", function(d) {
+          return "circle-2-" + d.name;
+        })
+        //.attr("r", function(d){
+          //  return Math.sqrt(d.size-120);
+          //})
+        .attr("r", 5)
+        .style("fill", function(d) { return color(d.group); })
+        /*.on("mouseover", function(d, i) {
+          
+
+          var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+          //console.log(mouse[0] + ","+mouse[1]);
+
+         tooltip
+            .classed("hidden", false)
+            .attr("style", "left:"+(mouse[0]+250)+"px;top:"+(mouse[1]+120)+"px")
+            .html(d.name + ": " + groupName[d.group]);
+
+        })
+        .on("mouseout", function(d, i) {
+         tooltip
+            .classed("hidden", true);
+        })*/;
+  
+      svg.append("svg:g")
+        .selectAll("text")
+         .data(graph.nodes)
+         //.data(employee)
+         .enter()
+         .append("text")
+         .text(function(d) {
+          //console.log(d.number);
+            return d.name + ", " + d.CurrentEmploymentTitle;
+
+         })
+         .attr("dx", function(d) {
+          return d.number * 9.2 + 190 ;
+          //return 13;
+         })
+         .attr("dy", function(d) {
+          return (53-d.number) * 9.2 - 190;
+          //return 13;
+         })
+         .attr("x", 110)
+         //.attr("y", 110)
+          .attr("transform", "rotate(45)")
+
+          .style("text-anchor","start")
+         .attr("font-family", "sans-serif")
+         .attr("font-size", "9px")
+         .attr("fill", function(d){
+            return color(d.group);
+         });
+      
+    });
+  
+
+  function mySelect(){
+    var i;
+    document.form1.sel.options[0] = new Option("",0);
+    for (i = 0; i < counts; i++) {
+      document.form1.sel.options[i+1] = new Option(employee[i].name,i);
+    }
+  }
+
+  var dotset = new Array(), lineset = new Array();
+
+  function showPerson(){
+    var i;
+    var pid = document.getElementById('sel').selectedIndex - 1;
+    var dateFormat = d3.time.format("%m/%d/%Y %H:%M");
+    selected_people = new Array();
+    selected_people.push(pid);
+   
+        //console.log(employee[emails[i].from].email_name);
+        //console.log(employee[pid].email_name);
+        //console.log(emails[i].date);
+        /*svg.selectAll("dots")
+          .data(emails)
+          .enter()
+          .append("dot")
+          //.attr("cx", x.scale(dateFormat(emails[i].date)))
+          .attr("cx", function(d){
+            return 200 + 2*d.from;
+          })
+          .attr("cy", 30)
+          .attr("class", "dot")
+          .attr("id", function(d) {
+            return "dot-" + d.from;
+          })
+          .attr("r", 5)
+          .style("fill", function(d) {
+            console.log(d);
+            return color(employee[d.from].group); 
+          });*/
+ 
+    //svg.selectAll("dot").remove();
+    var ss = svg
+      .selectAll("circle")
+      .filter(function(d,i) { return (i > 107); })
+      //.data(dotset, function(d) { return(d); })
+      //.exit()
+      .remove();
+    var ss = svg.selectAll("line")
+                .remove();
+    //console.log(ss);
+    //ss.remove();
+
+//Emails Sent by PID
+    dotset = new Array();
+    for (i in emails){
+      if (emails[i].from == pid)
+      {
+        dotset.push(i);
+        //console.log(i);
+      }
+    }
+
+
+    svg.append("svg:g")
+        .selectAll("circle")
+        .data(dotset)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+            //console.log(dateFormat.parse(emails[d].date));
+            //console.log(x(dateFormat.parse(emails[d].date)));
+            return x(dateFormat.parse(emails[d].date));
+        })
+        .attr("cy", 200)
+        .attr("r", 4)
+        .attr("class", "timeline-dot-"+pid)
+        .attr("id", function(d) {
+          return "dot-" + d;
+        })
+        .style("fill", function(d) {
+            //console.log(d);
+            return color(employee[emails[d].from].group); 
+        })
+        .on("mouseover", function(d, i) {
+          
+
+          var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+          //console.log(mouse[0] + ","+mouse[1]);
+
+         tooltip
+            .classed("hidden", false)
+            .attr("style", "left:"+(mouse[0]+250)+"px;top:"+(mouse[1]+120)+"px")
+            .html(emails[d].date + ", " + emails[d].subject);
+
+        })
+        .on("mouseout", function(d, i) {
+         tooltip
+            .classed("hidden", true);
+        });
+    
+
+    //console.log(pid);
+    lineset = new Array();
+    for (i in dotset)
+    {
+      var ts1 = emails[dotset[i]].to1, ts2 = emails[dotset[i]].to2;
+      
+      var j;
+      //console.log(ts1);
+      
+      
+      j = 32;
+      
+      while (ts1 != 0)
+      {
+        if (ts1 & 1)
+        {
+          var templine = new Array();
+          templine.push(dotset[i],j);
+          lineset.push(templine);
+        }
+        
+        ts1 >>>= 1;
+        j++;
+      }
+      //console.log(ts2);
+      j = 0;
+      while (ts2 != 0)
+      {
+        if (ts2 & 1)
+        {
+          var templine = new Array();
+          templine.push(dotset[i],j);
+          lineset.push(templine);
+        }
+        
+        ts2 >>>= 1;
+        j++;
+      }
+    }
+    //console.log(lineset);
+    svg.append("svg:g")
+      .selectAll('line')
+      .data(lineset)
+      .enter()
+      .append('line')
+      .attr('x1', function(d){
+        return d[1] * 13;
+      })
+      .attr('x2', function(d){
+        //console.log(d);
+        return x(dateFormat.parse(emails[d[0]].date));
+      })
+      .attr('y1', 10)
+      .attr('y2', 200)
+      .attr("class", "timeline-line-"+pid)
+      .attr("id", function(d) {
+            return "dot-" + d[0]+"-"+d[1];
+      })
+      .style('opacity', .5)
+      .style('stroke', 'grey')
+      .style('stroke-width',1);
+
+// Emails Received by PID
+
+   dotset = new Array();
+    for (i in emails){
+      if (pid >= 32)
+      {
+        if ((emails[i].to1 & (1 << (pid - 32))) > 0)
+        {
+          dotset.push(i);
+          //console.log(i);
+        }
+      }
+      else
+      {
+        if ((emails[i].to2 & (1 << pid)) > 0)
+        {
+          dotset.push(i);
+          //console.log(i);
+        }
+      }
+    }
+
+
+    svg.append("svg:g")
+        .selectAll("circle")
+        .data(dotset)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+            //console.log(dateFormat.parse(emails[d].date));
+            //console.log(x(dateFormat.parse(emails[d].date)));
+            return x(dateFormat.parse(emails[d].date));
+        })
+        .attr("cy", 210)
+        .attr("r", 4)
+        .attr("class", "timeline-dot-"+pid)
+        .attr("id", function(d) {
+          return "dot-" + d;
+        })
+        .style("fill", function(d) {
+            //console.log(d);
+            return color(employee[pid].group); 
+        })
+        .on("mouseover", function(d, i) {
+          
+
+          var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
+          //console.log(mouse[0] + ","+mouse[1]);
+
+         tooltip
+            .classed("hidden", false)
+            .attr("style", "left:"+(mouse[0]+250)+"px;top:"+(mouse[1]+120)+"px")
+            .html(emails[d].date + ", " + emails[d].subject);
+
+        })
+        .on("mouseout", function(d, i) {
+         tooltip
+            .classed("hidden", true);
+        });
+    
+
+    //console.log(pid);
+    lineset = new Array();
+    console.log(dotset);
+    for (i in dotset)
+    {
+      templine = new Array();  
+      templine.push(dotset[i],pid);
+      lineset.push(templine);
+    }
+    console.log(lineset);
+    svg.append("svg:g")
+      .selectAll('line')
+      .data(lineset)
+      .enter()
+      .append('line')
+      .attr('x2', function(d){
+        return employee[emails[d[0]].from].number * 13;
+      })
+      .attr('x1', function(d){
+        //console.log(d);
+        return x(dateFormat.parse(emails[d[0]].date));
+      })
+      .attr('y1', 210)
+      .attr('y2', 410)
+      .attr("class", "timeline-line-"+pid)
+      .attr("id", function(d) {
+            return "dot-" + d[0]+"-"+d[1];
+      })
+      .style('opacity', .5)
+      .style('stroke', 'grey')
+      .style('stroke-width',1);
+
+
+    showGroup(selected_people); 
+}
+</script>
+
+<div id="container">
+  <div id="left-column">
+    <form name="form1" onChange="showPerson()">
+      <select name="sel" id="sel" onFocus="mySelect()">
+    </form> 
+  </div>
+  <div id="right-column"> </div>
+</div>
+
+<script type="text/javascript">
+function sortNumber(a,b){
+  //console.log(a + "," + b);
+  return employee[a].number - employee[b].number;
+}
+
+  var svg_group = d3.select("body").append("div")
+    .attr("class", "email-group")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append('g')
+    .attr("transform", "translate(" + 200 + "," + 200 + ")");
+
+//Width and height
+  var w = 300;
+  var h = 300;
+
+  var dataset = [7, 13, 5, 13, 5, 11 ];
+
+  var outerRadius = 60;
+  var innerRadius = 0;
+  var arc = d3.svg.arc()
+          .innerRadius(innerRadius)
+          .outerRadius(outerRadius);
+  
+  var pie = d3.layout.pie();
+
+  var group_pie = d3.layout.pie()
+              .sort(sortNumber)
+              .value(function(d) { return 1; });
+  //  .sort(null)
+    //.value(function(d) { return d.name; });
+
+  
+  //Set up groups
+  /*var arcs = svg_group.selectAll("g.arc")
+          .data(pie(dataset))
+          .enter()
+          .append("g")
+          .attr("class", "arc");
+  
+  //Draw arc paths
+  arcs.append("path")
+      .attr("fill", function(d, i) {
+        return color(i);
+      })
+      .attr("d", arc);
+  
+  //Labels
+  arcs.append("text")
+      .attr("transform", function(d) {
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .text(function(d) {
+        return d.value;
+      });*/
+
+
+  function sortFreq(a,b)
+  {
+    return b.frequence-a.frequence;
+  }
+
+  function sortGroup(a,b)
+  {
+    var cnta = 0, cntb = 0;
+    for (var i = 0; i < 6; i++)
+    {
+      if (a.groupcnt[i] > 0) cnta ++;
+      if (b.groupcnt[i] > 0) cntb ++;
+    }
+    return cntb - cnta;
+  }
+
+  function showGroup(spList)
+  {
+    selectedArc = svg_group.selectAll("g.arc");
+    console.log(selectedArc);
+    selectedArc
+      //.filter(function(d,i) { return (i > 107); })
+      //.data(dotset, function(d) { return(d); })
+      //.exit()
+      .remove();
+    selectedArc.selectAll("arc").selectAll("text").remove();
+    console.log(spList);
+
+    var groupList = new Array();
+    
+    for (var k in email_group)
+    {
+      var x = email_group[k], y;
+     
+      var flag;
+
+      for (var i in spList)
+      {
+        var j = spList[i];
+        flag = -1;
+        if (j > 31)
+        {
+          y = 1 << (j - 32);
+        }
+        else
+        {
+          y = 1 << j;
+        }
+        if (((j > 31) && ((x.state1 & y) > 0)) || ((j <= 31) && ((x.state2 & y) > 0)))
+        {
+           flag = 1;
+        }
+        if (flag == -1) break;
+      }
+      if (flag == 1)
+      {
+        groupList.push(x);
+      }
+    }
+    
+    groupList.sort(sortFreq);
+    //console.log(groupList);
+
+   // for (var i in groupList)
+   var i = 1;
+    {
+      var temp = new Array();
+      //var x = groupList[i];
+      var x = groupList[i];
+    
+      for (var j = 0; j < 32; j ++)
+            if ((x.state1 & (1 << (j + 32))) > 0) temp.push(j + 32);
+          for (var j = 0; j < 32; j ++)
+            if ((x.state2 & (1 << j)) > 0) temp.push(j);
+    
+
+      //console.log(temp);
+      drawGroup(temp, i, 0)
+
+    }
+
+    groupList.sort(sortGroup);
+    //for (var i in groupList)
+    var i = 1;
+    {
+      var temp = new Array();
+      //var x = groupList[i];
+      var x = groupList[i];
+    
+      for (var j = 0; j < 32; j ++)
+            if ((x.state1 & (1 << (j + 32))) > 0) temp.push(j + 32);
+          for (var j = 0; j < 32; j ++)
+            if ((x.state2 & (1 << j)) > 0) temp.push(j);
+    
+
+      //console.log(temp);
+      drawGroup(temp, i, 1)
+
+    }
+  }
+
+  function drawGroup(dataset, xOffset, yOffset){
+      arcs = svg_group.append("svg:g")
+        .selectAll("g.arc")
+        .data(group_pie(dataset))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+        .attr("transform", "translate(" + xOffset * 180  + "," + yOffset * 180 + ")");;
+     //Draw arc paths
+      arcs.append("path")
+        .attr("fill", function(d) {
+          //console.log(d)
+          return color(employee[d.data].group);
+        })
+        .attr("stroke-width", "1")
+        .style("stroke", "White")
+        .attr("d", arc);
+    
+  /*  //Labels
+      arcs.append("text")
+        .attr("transform", function(d) {
+          return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d) {
+          return employee[d.data].name;
+        });
+  */
+      arcs.filter(function(d) {
+            return d.endAngle - d.startAngle > .02; 
+          })
+          .append("svg:text")
+          .attr("dy", "5px")
+          .attr("angle", function(d) { return angle(d, -90, 90); })
+          .attr("text-anchor", function(d) {
+            var a = angle(d, 0, 0);
+            return a < 0 ? "start" : "end";
+          })
+          .attr("transform", function(d) { //set text's origin to the centroid
+             // Make sure to set these before calling arc.centroid
+             d.innerRadius = (height/2); // Set Inner Coordinate
+             d.outerRadius = (height/2); // Set Outer Coordinate
+             return "translate(" + arc.centroid(d) + ")rotate(" + angle(d, -90, 90) + ")";
+           })
+          .style("fill", "Black")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "9px")
+          .text(function(d) { return employee[d.data].name /* + " " + Math.round(angle(d, 0, 0)) */ ; });
+  }
+// Computes the angle of an arc, converting from radians to degrees.
+  function angle(d, offset, threshold) {
+    var a = (d.startAngle + d.endAngle) * 90 / Math.PI + offset;
+    return a >= threshold ? a - 180 : a;
+  }
+
+</script>
+
+</body>
+</html>
+
