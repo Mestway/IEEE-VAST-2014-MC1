@@ -32,6 +32,7 @@ var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     3 -- title
 */
 var autoSelection = 0;
+var enableDrag = 1;
 
 // brush for context
 var brush = d3.svg.brush()
@@ -442,6 +443,93 @@ function drawCheckBox(data, scaleX, scaleY) {
         .on("click", checkboxClick);
 }
 
+// drag behavior for name
+var drag = d3.behavior.drag()
+    .origin(function(d) { return d; })
+    .on("dragstart", dragstarted)
+    .on("drag", dragged)
+    .on("dragend", dragended);
+
+function dragstarted(d) {
+    if (enableDrag == 0)
+        return;
+
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+}
+
+function dragged(d) {
+    if (enableDrag == 0)
+        return;
+    d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+    
+    var newPos = suggestNewPos(d);
+    drawLittleArrow(newPos);
+}
+
+function dragended(d) {
+    if (enableDrag == 0)
+        return;
+
+    var newPos = suggestNewPos(d);
+    $("#sp_arrow").remove();
+
+
+
+    if (newPos < d.pos) {
+        for (var i = 0; i < asyncData.length; i ++) {
+            if (asyncData[i].id != d.id && asyncData[i].pos >= newPos && asyncData[i].pos < d.pos) {
+                asyncData[i].pos += 1;
+            } 
+        }
+    } else if (newPos > d.pos + 1) {
+        for (var i = 0; i < asyncData.length; i ++) {
+            if (asyncData[i].id != d.id && asyncData[i].pos <= newPos && asyncData[i].pos > d.pos) {
+                asyncData[i].pos -= 1;
+            } 
+        }
+    }
+
+    for (var i = 0; i < asyncData.length; i ++) {
+        if (asyncData[i].id == d.id) {
+            if (newPos == d.pos + 1)
+                asyncData[i].pos = newPos - 1;
+            else 
+                asyncData[i].pos = newPos;
+        }
+    }
+
+    reDrawDiagram(asyncData);
+
+    d3.select(this).classed("dragging", false);
+}
+
+function suggestNewPos(d) {
+    var tempPos = asyncData.length - 1;
+    var minSelPos = 9999999999;
+    for (var i = 0; i < asyncData.length; i ++) {
+        if (d.y >= y(i + 1) ) {
+            tempPos = i;
+            break;
+        }
+    }
+    return tempPos;
+}
+
+function drawLittleArrow(tempPos) {
+    var arrowY = y(tempPos + 0.5);
+    $("#sp_arrow").remove();
+    focus.append("line")
+        .attr("id", "sp_arrow")
+        .attr("x1", width)
+        .attr("x2", width + 200)
+        .attr("y1", arrowY)
+        .attr("y2", arrowY) 
+        .attr("stroke", "gray")
+        .attr("stroke-dasharray","5,10,5")
+        .attr("stroke-width", "2");
+}
+
 function drawName(data, scaleX, scaleY) {
     $(".focus > .name").remove();
     focus.selectAll(".name")
@@ -452,9 +540,13 @@ function drawName(data, scaleX, scaleY) {
         .attr("uid", function(d) {
             return d.id;
         })
-        .attr("x", width + 5)
+        .attr("x", function(d) {
+            d.x = width + 5;
+            return d.x;
+        })
         .attr("y", function(d) {
-            return scaleY(d.pos + 1) + ht/2;
+            d.y = scaleY(d.pos + 1) + ht/2;
+            return d.y
         })
         .style("font-size", ht)
         .style("font-family", "Verdana")
@@ -472,7 +564,12 @@ function drawName(data, scaleX, scaleY) {
                 $(".focus > .name[uid=" + d.id + "]").css("fill", "black");
             }
         })
-        .on("click", nameClick);
+        .on("click", function(d) {
+            if (d3.event.defaultPrevented) 
+                return;
+            nameClick(d);
+        })
+        .call(drag);
 }
 
 function generateTable(data) {
@@ -580,7 +677,6 @@ function format ( d ) {
 }
 
 function reDrawDiagram(data) {
-
     // reset the scale domain
     var yp = y;
     var yp2 = y2;
@@ -588,12 +684,8 @@ function reDrawDiagram(data) {
     yp2.domain(yp.domain());
 
     data.sort(function(a, b) {
-        return a.id - b.id;
+        return a.pos - b.pos;
     });
-
-    for (var i = 0; i < data.length; i ++) {
-        data[i].pos = i;
-    }
 
     generateTable(data);
     drawGridLine(data, x, yp);
@@ -677,6 +769,11 @@ $("#resume_filter > #auto_query")
         autoSelection = $("#auto_query").val();
     });
 
+$("#enable_drag")
+    .click(function() {
+        enableDrag = 1 - enableDrag;
+    });
+
 // listener for click on checkbox 
 function checkboxClick(d) {
     $("#checkbox" + d.id).attr("ckted",1-$("#checkbox"+d.id).attr("ckted"));
@@ -694,6 +791,8 @@ function checkboxClick(d) {
             .css("font-weight", "normal");
         dehighlightTableRow(d.id);
     }
+
+    document.getElementById("table_tr_" + d.id).scrollIntoView();
 }
 
 function nameClick(d) {
