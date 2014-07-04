@@ -90,7 +90,7 @@ DataManager.prototype = {
 			}			
 
 		}
-		console.log("timenum",timeNum)
+		//console.log("timenum",timeNum)
 		rawData.sort(function(a,b){
 			return a.dateTime.getTime()-b.dateTime.getTime()
 		})
@@ -160,7 +160,7 @@ DataManager.prototype = {
 			dateIndex[rawData[i].binDateTime.toString()].push(rawData[i]);
 			lastDate = rawData[i].dateTime;			
 		}
-		console.log("max count",maxCount)
+		//console.log("max count",maxCount)
 		this.data = rawData;
 		var threshold = 10;
 		var entries = d3.map(topicLabels).entries();
@@ -233,7 +233,7 @@ DataManager.prototype = {
 			dateIndex[rawData[i].binDateTime.toString()].push(rawData[i]);
 			lastDate = rawData[i].dateTime;			
 		}
-		console.log("max count",maxCount)
+		//console.log("max count",maxCount)
 		this.filteredData.push(filteredData);
 
 		for(date in dateIndex){

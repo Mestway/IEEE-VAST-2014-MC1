@@ -36,8 +36,9 @@ CanvasManager.prototype = {
 
 		var yScale = d3.scale.linear()
 			.range([0,height]);
+
 		var xAxis = d3.svg.axis()
-//			.scale(xScale)
+			//.scale(xScale)
 			.scale(timeScale)
 			.orient("top")
 			//.tickValues([]);
@@ -48,8 +49,7 @@ CanvasManager.prototype = {
 			.tickPadding(-3)
 			.ticks(5);
 
-
-		this.timeScale = timeScale
+		this.timeScale = timeScale;
 
 		this.xScale = xScale;
 		this.yScale = yScale;
@@ -79,20 +79,25 @@ CanvasManager.prototype = {
 		// 	.attr("transform","translate("+this.width*7/10.0+","+(-30)+")")
 		// 	.text("Time");
 	},
-	updateData:function(data,timeMatch,hideTick){
+	updateData:function(data,timeMatch,hideTick, enableApprox){
 		this.data = data.data;
-//		this.links = data.links;
-		this.preprocessData(this.data,timeMatch);
+		//this.links = data.links;
+		this.preprocessData(this.data,timeMatch, enableApprox);
 		this.update(hideTick);
 	},
-	preprocessData:function(data,timeMatch){
-//		var data = this.data;
+	preprocessData:function(data,timeMatch, enableApprox){
+
+		for (var i = 0; i < data.length; i ++) {
+			data[i].dateTime.setHours(0);
+			data[i].dateTime.setMinutes(0);
+			data[i].dateTime.setSeconds(0);
+		}
+
+		//var data = this.data;
 		var xScale = this.timeScale;
 		var yScale = this.yScale;
-		var period = this.period
-		xScale.domain(d3.extent(data.map(function(d){
-			return d.dateTime;
-		})))
+		var period = this.period;
+		xScale.domain([global_min_date, global_max_date]);
 		if(timeMatch){
 			var width = this.width;
 			var tempArray = d3.entries(timeMatch)
@@ -100,13 +105,13 @@ CanvasManager.prototype = {
 			if(tempArray.length){
 				unitWidth = 1.0*width/tempArray.length;
 			}
-			xScale.domain(tempArray.map(function(d){
+			/*xScale.domain(tempArray.map(function(d){
 				return d.value;
 			})).range(tempArray.map(function(d){
 				return unitWidth*d.key;
-			}))
+			}))*/
 			this.unitWidth = unitWidth;
-		}		
+		}
 		// yScale.domain(d3.extent(data.map(function(d){
 		// 	return d.count;
 		// })))
@@ -139,6 +144,9 @@ CanvasManager.prototype = {
 			data[i].height = yUnit;
 		}
 
+		if (enableApprox)
+			data = approxTransformM1(data, xScale, xUnit, false);
+
 	},
 	drawBackground:function(){
 		var xScale = this.timeScale;
@@ -163,7 +171,8 @@ CanvasManager.prototype = {
 		var sel = gBarChart.selectAll("rect.backgroundBand")
 			.data(data,function(d){
 				return d;
-			})
+			});
+
 		var enter = sel.enter()
 			.append("rect")
 			.attr("class","backgroundBand");
@@ -179,10 +188,8 @@ CanvasManager.prototype = {
 				}else{
 					return "rgba(255,255,255,1)";
 				}
-			})
-
+			});
 		sel.exit().remove();
-
 	},
 	update:function(hideTick){
 
@@ -204,7 +211,6 @@ CanvasManager.prototype = {
 
 		}
 
-
 		var sel = gBarChart.selectAll("g.node")
 			.data(drawData,function(d){
 				return d.id;
@@ -216,19 +222,19 @@ CanvasManager.prototype = {
 		enter.append("title");
 
 		var myRect = sel.selectAll("rect")
-			.data(drawData,function(d){
+			.data(drawData,function(d) {
 				return d.id;
 			})
-			.attr("transform",function(d){
+			.attr("transform",function(d) {
 				return "translate(" + d.x + "," + d.y + ")";
 			})
-			.attr("width",function(d){
+			.attr("width",function(d) {
 				return d.width;
 			})
-			.attr("height",function(d){
+			.attr("height",function(d) {
 				return d.height;
 			})
-			.style("fill",function(d){
+			.style("fill",function(d) {
 				return fillColor(d.topic)
 				//return "steel-blue";
 			})
@@ -237,22 +243,25 @@ CanvasManager.prototype = {
 			// 		return "white";
 			// })
 			.on("click",function(d){
-				$("#news").html(d.dateTime.getFullString()+"<br><p>"+d.body+"</p>");
+				console.log("??!");
+				$("#news_board").remove();
+				$('<div id="news_board">').appendTo('#resume_chart').html(d.dateTime.getFullString()+"<hr><p>"+d.body+"</p>");
+				//$("#news_board").html();
 				d3.selectAll("g.node").selectAll("rect")
-					.classed("highlighted",function(dd){
+					.classed("highlighted",function(dd) {
 						return d.id==dd.id
 					});
 			})
 			.on("mouseover",function(d){
 				var idList = {}
-				for(var i in globalKeywordIndexs){
-					if(!d[i]){
+				for(var i in globalKeywordIndexs) {
+					if (!d[i]) {
 						continue;
 					}
-					for(var k=0;k<d[i].length;k++){
+					for(var k=0;k<d[i].length;k++) {
 						var currentIdList = globalKeywordIndexs[i][d[i][k]];
-						for(var j=0;j<currentIdList.length;j++){
-							if(!idList[currentIdList[j]]){
+						for(var j=0;j<currentIdList.length;j++) {
+							if(!idList[currentIdList[j]]) {
 								idList[currentIdList[j]]=0;
 							}
 							idList[currentIdList[j]]++;
@@ -266,10 +275,8 @@ CanvasManager.prototype = {
 						if(idList[dd.id]){
 							return true;
 						}
-					})
-			})
-			;
-
+					});
+			});
 
 		sel.exit().remove();
 
@@ -280,8 +287,42 @@ CanvasManager.prototype = {
 			.text(function(d){
 				return d.dateTime.getFullString() + "\n"
 					+ d.body				
-			})
-
-
+			});
 	}
 }
+
+approxTransformM1 = function (data, scaleX, xUnit, skip) {
+	skip = false;
+		data.sort(function(a, b) {
+			return a.x - b.x;
+		});
+
+		data[data.length-1].newx = data[data.length-1].x;
+		for (var i = data.length - 2; i > 0; i --) {
+			if (skip) {
+				if (data[i].x >= width)
+					data[i].newx = data[i].x;
+					continue;
+				if (data[i].x <= 0)
+					data[i].newx = data[i].x;
+					continue;
+			}
+			if (data[i].x == data[i+1].x) {
+				data[i+1].x = data[i+1].newx;
+				data[i].newx = data[i+1].newx;
+			} else if (data[i+1].newx - data[i].x < xUnit) {
+				if (data[i+1].newx >= width) {
+					data[i].newx = data[i].x;
+					continue;
+				}
+				data[i+1].x = data[i+1].newx;
+				data[i].newx = data[i+1].newx - xUnit;
+			} else {
+				data[i + 1].x = data[i+1].newx;
+				data[i].newx = data[i].x;
+			}
+		}
+		return data;
+	}
+
+// ?? maybe we can try some other strategy on the approximate

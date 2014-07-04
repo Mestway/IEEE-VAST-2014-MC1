@@ -1,20 +1,24 @@
 /* up and down version */
-/*#resume_chart {
-	width: 1600px;
+#resume_chart {
+	width: 1900px;
 	float:left;
 }
 
 #text_board {
-	width: 1600px;
+	width: 1900px;
 	padding-right:15pt;
 	float:left;
 	text-align: center;
 }
-*/
 
-
+#news_board {
+	width: 1900px;
+	float: left;
+	padding-left: 15pt;
+	position: absolute;
+}
 /* left and right version */
-
+/*
 #resume_chart {
 	width: 60%;
 	float:left;
@@ -25,4 +29,4 @@
 	padding-right:15pt;
 	float:right;
 	text-align: center;
-}
+}*/

@@ -23,7 +23,8 @@ function fillColor(key){
 	}
 	return "steel-blue";
 }
-var myColor = {}
+
+var myColor = {};
 //data: index,text,color,
 ColorLabel.prototype = {
 	init:function(tweetInfo){

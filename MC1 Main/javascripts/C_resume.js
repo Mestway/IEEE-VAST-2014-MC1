@@ -1,14 +1,22 @@
 // attributes for svg
 var div_width = $("#resume_chart").width();
 
-var focusHeight = 630;
-var contextHeight = focusHeight + 70;
 
-var margin = {top: 10, right: 120, bottom: 100, left: 20},
-    margin2 = {top: focusHeight, right: 120, bottom: 20, left: 20},
-    width = div_width - margin.left - margin.right,
-    height = contextHeight - margin.top - margin.bottom,
-    height2 = contextHeight - margin2.top - margin2.bottom;
+var margin  = {top: 10, right: 120, bottom: 20, left: 40},
+    margin2 = {top: 20 , right: 120, bottom: 20, left: 40},
+    margin3 = {top: 20, right: 120, bottom: 10, left: 40},
+    margin4 = {top: 10, right: 120, bottom: 100, left: 40};
+
+var width = div_width - margin.left - margin.right,
+    height = 550,
+    height2 = 70,
+    height3 = 400,
+    height4 = 50;
+
+var translate = {top: margin.top, left: margin.left};
+var translate2 = {top: margin.top + height + margin.bottom + margin2.top, left: margin2.left};
+var translate3 = {top: translate2.top + margin2.bottom + height2 + margin3.top, left: margin2.left};
+var translate4 = {top: translate3.top + margin3.bottom + height3 + margin4.top, left: margin2.left};
 
 var rectOpacity = 0.45;
 var ifDrawYAxis = false;
@@ -21,6 +29,7 @@ var x = d3.time.scale().range([0, width]),
 var ht = height * 0.5 / 35;
 
 var xAxis = d3.svg.axis().scale(x).orient("bottom"),
+    xAxisV2 = d3.svg.axis().scale(x).orient("top"),
     xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y2).orient("left");
@@ -41,7 +50,7 @@ var brush = d3.svg.brush()
 
 var svg = d3.select("#resume_chart").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .attr("height", translate4.top + margin4.bottom);
 
 svg.append("defs").append("clipPath")
     .attr("id", "clip")
@@ -51,11 +60,20 @@ svg.append("defs").append("clipPath")
 
 var focus = svg.append("g")
     .attr("class", "focus")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + translate.left + "," + translate.top + ")");
 
 var context = svg.append("g")
     .attr("class", "context")
-    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+    .attr("id", "onContext")
+    .attr("transform", "translate(" + translate2.left + "," + translate2.top + ")");
+
+var symbol_view = svg.append("g")
+    .attr("id", "symbol_view")
+    .attr("transform", "translate(" + translate4.left + "," + translate4.top + ")");
+
+var news_timeline = svg.append("g")
+    .attr("id", "news_timeline")
+    .attr("transform", "translate(" + translate3.left + "," + translate3.top + ")");
 
 // Global Data
 //data
@@ -63,11 +81,16 @@ var asyncData = [];
 var dataStack = new Array();
 var dataStackBackward = new Array();
 
+// Max and Min date value
+var global_min_date = {};
+var global_max_date = {};
 
 // when we brush the "context" part, we will invoke this function to build "focus" graph
 function brushed() {
+
     x.domain(brush.empty() ? x2.domain() : brush.extent());
 
+    // redraw circles in the resume diagram
     focus.selectAll(".employ_circle")
         .attr("cx", function(d) {
             var cx = x(new Date(d.CurrentEmploymentStartDate * 1000));
@@ -77,7 +100,6 @@ function brushed() {
             }
             else return -100;
         });
-
     focus.selectAll(".force_circle")
         .attr("cx", function(d) {
             var cx = x(new Date(d.forceDischarge * 1000));
@@ -88,6 +110,7 @@ function brushed() {
             else return -100;
         });
 
+    // re-scale the experiences
     focus.selectAll(".experience")
         .attr("transform", function(d) { 
             var l = x(new Date(d.start * 1000));
@@ -113,7 +136,37 @@ function brushed() {
             return r - l;
         })
         .attr("height", ht);
+
     focus.select(".x.axis").call(xAxis);
+
+    d3.select("#news_timeline")
+        .select(".attrFilter")
+        .select(".xAxis")
+        .call(xAxisV2);
+
+    var tempData = [];
+    d3.select("#news_timeline")
+        .selectAll(".node")
+        .selectAll("rect")
+        .attr("transform", function(d) {
+            //console.log(d);
+            d.x = x(d.dateTime);
+            tempData.push(d);
+            return "translate(" + d.x + "," + d.y + ")";
+        })
+
+    tempData = approxTransformM1(tempData, x, tempData[0].width, true);
+    console.log(tempData);
+    d3.select("#news_timeline")
+        .selectAll(".node")
+        .selectAll("rect")
+        .attr("transform", function(d) {
+            for (var i = 0; i < tempData.length; i ++) {
+                if (tempData[i].id == d.id)
+                    return "translate(" + tempData[i].x + "," + tempData[i].y + ")";
+            }
+            return "";
+        })
 }
 
 function update2min(a, b) {
@@ -133,8 +186,6 @@ d3.json("resumev3.json", function(error, rawData) {
 
     //generate id for each person
     var data = dataProcessor(rawData);
-
-
 
 	var minDate = 9999999999;
 	var maxDate = 1390262400;
@@ -162,6 +213,11 @@ d3.json("resumev3.json", function(error, rawData) {
                 data[i].experience[j].start = minDate;
         }
     }
+
+    maxDate = 1390608000;
+
+    global_min_date = new Date(minDate * 1000);
+    global_max_date = new Date(maxDate * 1000);
 
 	x.domain([new Date(minDate * 1000), new Date(maxDate * 1000)]);
 	y.domain([0, data.length + 1]);
@@ -791,7 +847,6 @@ function checkboxClick(d) {
             .css("font-weight", "normal");
         dehighlightTableRow(d.id);
     }
-
     document.getElementById("table_tr_" + d.id).scrollIntoView();
 }
 

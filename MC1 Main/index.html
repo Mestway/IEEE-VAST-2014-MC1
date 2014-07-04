@@ -1,50 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8"/>
-    <title>MC1</title>
-    <link rel="stylesheet" type="text/css" href="stylesheets/resume.css"/>
-    <link rel="stylesheet" type="text/css" href="stylesheets/homepage.css"/>
-    <link rel="stylesheet" type="text/css" href="stylesheets/jquery.dataTables.css"/>
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="stylesheets/newsline.css"/>
+    <head>
+    	<meta charset="utf-8"/>
+        <title>MC1</title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/resume.css"/>
+        <link rel="stylesheet" type="text/css" href="stylesheets/homepage.css"/>
+        <link rel="stylesheet" type="text/css" href="stylesheets/jquery.dataTables.css"/>
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="stylesheets/newsline.css"/>
 
-	<script src="javascripts/D3/d3.v3.js"></script>
-	<script src="javascripts/jquery-2.1.0.js"></script>
-	<script src="javascripts/jquery.dataTables.min.js"></script>
-	<script src="javascripts/D3/d3selectable.js"></script>
-</head>
+    	<script src="javascripts/D3/d3.v3.js"></script>
+    	<script src="javascripts/jquery-2.1.0.js"></script>
+    	<script src="javascripts/jquery.dataTables.min.js"></script>
+    	<script src="javascripts/D3/d3selectable.js"></script>
+        <script src="javascripts/jquery-ui.js"></script>
+    </head>
 
-<body width = "1920" height = "1600">
-
-<div id="resume_filter">
-    <h1 id="hello">
-        Hello
-    </h1>
-    <input id="submit_button" class="button" type="button" value="submit filter"/>
-    <input id="undo_button" class="button" type="button" value="undo"/>
-    <input id="redo_button" class="button" type="button" value="redo"/>
-
-    <select id="auto_query" name=""> 
-        <option value="0" selected="selected">--Select Auto Selection--</option> 
-        <option value="1">Disable auto selection</option>
-        <option value="2">By location</option> 
-        <option value="3">By title</option>
-    </select>
-    <label>
-    <input id="enable_drag" type="checkbox" checked/>Enable Drag
-    <!--<input id="hide_name_button" type="button" class="button" value="hide name"/>-->
-</div>
-<div id="resume_chart"></div>
+    <body width = "1920" height = "2400">
+        <h1 id="hello">
+            Hello
+        </h1>
+        
+        <div id="main_panel">
+            <input class="enable_drag" type="checkbox"/>Enable Re-arrange Layout by dragging.
+        </div>
 
 
-<div id="text_board">
-<table id="text_table" class="display" cellspacing="0" width="100%"></table>
-</div>
-</body>
+        <div id="board">
+            <div id="text_board" class="ui-widget-content">
+                <table id="text_table" class="display" cellspacing="0" width="100%"></table>
+            </div>
+        </div>
 
-<script src="javascripts/C_resume.js"></script>
-<script type="text/javascript" src="javascripts/newsline/colorLabel.js"></script>
-<script type="text/javascript" src="javascripts/newsline/DataManager.js"></script>
-<script type="text/javascript" src="javascripts/newsline/CanvasManager.js"></script>
+        <div id="resume_component">
+            <div id="resume_filter">
+                <input id="submit_button" class="button" type="button" value="submit filter"/>
+                <input id="undo_button" class="button" type="button" value="undo"/>
+                <input id="redo_button" class="button" type="button" value="redo"/>
+
+                <select id="auto_query" name=""> 
+                    <option value="0" selected="selected">--Select Auto Selection--</option> 
+                    <option value="1">Disable auto selection</option>
+                    <option value="2">By location</option> 
+                    <option value="3">By title</option>
+                </select>
+                <label>
+                <input id="enable_drag" type="checkbox" checked/>Enable Drag to Sort Name
+                <!--<input id="hide_name_button" type="button" class="button" value="hide name"/>-->
+            </div>
+            <div id="resume_chart"></div>
+        </div>
+
+        
+
+        
+    </body>
+
+    <script src="javascripts/C_indexstyle.js"></script>
+    <script src="javascripts/C_resume.js"></script>
+    <script type="text/javascript" src="javascripts/newsline/colorLabel.js"></script>
+    <script type="text/javascript" src="javascripts/newsline/DataManager.js"></script>
+    <script type="text/javascript" src="javascripts/newsline/CanvasManager.js"></script>
+    <script type="text/javascript" src="javascripts/C_newstimeline.js"></script>
 </html>
