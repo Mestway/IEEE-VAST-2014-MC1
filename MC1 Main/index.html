@@ -16,20 +16,13 @@
         <script src="javascripts/jquery-ui.js"></script>
     </head>
 
-    <body width = "1920" height = "2400">
+    <body width = "4020" height = "4400">
         <h1 id="hello">
-            Hello
+            News Timeline
         </h1>
         
         <div id="main_panel">
             <input class="enable_drag" type="checkbox"/>Enable Re-arrange Layout by dragging.
-        </div>
-
-
-        <div id="board">
-            <div id="text_board" class="ui-widget-content">
-                <table id="text_table" class="display" cellspacing="0" width="100%"></table>
-            </div>
         </div>
 
         <div id="resume_component">
@@ -43,23 +36,36 @@
                     <option value="1">Disable auto selection</option>
                     <option value="2">By location</option> 
                     <option value="3">By title</option>
+                    <option value="4">Overlapping</option>
                 </select>
                 <label>
                 <input id="enable_drag" type="checkbox" checked/>Enable Drag to Sort Name
                 <!--<input id="hide_name_button" type="button" class="button" value="hide name"/>-->
             </div>
             <div id="resume_chart"></div>
+            <div id="news_board" title="news"></div>
         </div>
 
-        
+        <div id="news_filter" height="480px">
+            <label for="keyword">Filter by key word:</label>
+            <input id="keyword_input" type="text" name="keyword">
+            <input id="submit_keyword" class="button" type="button" value="submit_keyword"/><br>
+            <input id="intersect" class="button" type="button" value="intersect"/>
+            <input id="union" class="button" type="button" value="union"/>
+            <input id="difference" class="button" type="button" value="difference"/>
+        </div>
 
-        
+        <div id="text_board" class="ui-widget-content">
+            <table id="text_table" class="display" cellspacing="0" width="100%"></table>
+        </div>
     </body>
 
-    <script src="javascripts/C_indexstyle.js"></script>
-    <script src="javascripts/C_resume.js"></script>
+    <script type="text/javascript" src="javascripts/C_indexstyle.js"></script>
+    <script type="text/javascript" src="javascripts/C_resume.js"></script>
     <script type="text/javascript" src="javascripts/newsline/colorLabel.js"></script>
     <script type="text/javascript" src="javascripts/newsline/DataManager.js"></script>
+    <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
     <script type="text/javascript" src="javascripts/newsline/CanvasManager.js"></script>
     <script type="text/javascript" src="javascripts/C_newstimeline.js"></script>
 </html>

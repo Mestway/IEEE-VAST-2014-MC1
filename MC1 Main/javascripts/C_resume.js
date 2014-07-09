@@ -10,7 +10,7 @@ var margin  = {top: 10, right: 120, bottom: 20, left: 40},
 var width = div_width - margin.left - margin.right,
     height = 550,
     height2 = 70,
-    height3 = 400,
+    height3 = 600,
     height4 = 50;
 
 var translate = {top: margin.top, left: margin.left};
@@ -42,6 +42,7 @@ var xAxis = d3.svg.axis().scale(x).orient("bottom"),
 */
 var autoSelection = 0;
 var enableDrag = 1;
+var global_enable_scroll = false;
 
 // brush for context
 var brush = d3.svg.brush()
@@ -91,7 +92,7 @@ function brushed() {
     x.domain(brush.empty() ? x2.domain() : brush.extent());
 
     // redraw circles in the resume diagram
-    focus.selectAll(".employ_circle")
+    focus.selectAll(".employ_circle circle")
         .attr("cx", function(d) {
             var cx = x(new Date(d.CurrentEmploymentStartDate * 1000));
 
@@ -100,7 +101,16 @@ function brushed() {
             }
             else return -100;
         });
-    focus.selectAll(".force_circle")
+    focus.selectAll(".force_circle circle")
+        .attr("cx", function(d) {
+            var cx = x(new Date(d.forceDischarge * 1000));
+
+            if (cx > 0 && cx < width) {
+                return cx;
+            }
+            else return -100;
+        });
+    focus.selectAll(".passport_circle circle")
         .attr("cx", function(d) {
             var cx = x(new Date(d.forceDischarge * 1000));
 
@@ -117,8 +127,10 @@ function brushed() {
             if (l < 0) l = 0;
             //if (r > width) r = width;
 
-            return  "translate(" + l + "," + (y(d.pos + 1) - $(".focus > .experience").attr("height")/2) + ")";
+            return  "translate(" + l + "," + (y(d.pos + 1) - ht/2) + ")";
         })
+
+    focus.selectAll(".experience .rect_experience")
         .attr("width", function(d) {
             var l = x(new Date(d.start * 1000));
             var r = x(new Date(d.end * 1000));
@@ -156,7 +168,7 @@ function brushed() {
         })
 
     tempData = approxTransformM1(tempData, x, tempData[0].width, true);
-    console.log(tempData);
+    //console.log(tempData);
     d3.select("#news_timeline")
         .selectAll(".node")
         .selectAll("rect")
@@ -188,7 +200,26 @@ d3.json("resumev3.json", function(error, rawData) {
     var data = dataProcessor(rawData);
 
 	var minDate = 9999999999;
-	var maxDate = 1390262400;
+	var maxDate = 1490262400;
+
+    for (var i = 0; i < data.length; i ++) {
+        for (var j = 0; j < data[i].experience.length; j ++) {
+            if (data[i].experience[j].end > 1390262400) {
+                console.log(data[i]);
+            }
+            if (data[i].experience[j].start == 0) {
+                //data[i].experience[j].start = minDate;
+                data[i].experience[j].start = data[i].experience[j].end - (946656000 - 820425600);
+                if (data[i].experience[j].start < minDate)
+                    minDate = data[i].experience[j].start;
+            }
+        }
+    }
+
+    for (var i = 0; i < data.length; i ++) {
+        minDate = update2min(minDate, data[i].CurrentEmploymentStartDate);
+        maxDate = update2max(maxDate, data[i].CurrentEmploymentStartDate);
+    }
 
 	for (var i = 0; i < data.length; i ++) {
 		minDate = update2min(minDate, data[i].CurrentEmploymentStartDate);
@@ -206,15 +237,16 @@ d3.json("resumev3.json", function(error, rawData) {
 
     for (var i = 0; i < data.length; i ++) {
         for (var j = 0; j < data[i].experience.length; j ++) {
-            if (data[i].experience[j].end > 1390262400) {
-                console.log(data[i]);
-            }
-            if (data[i].experience[j].start == 0)
-                data[i].experience[j].start = minDate;
+            if (data[i].experience[j].start == maxDate)
+                data[i].experience[j].start = 1398902400;
+            if (data[i].experience[j].start == maxDate)
+                data[i].experience[j].start = 1398902400;
         }
     }
 
-    maxDate = 1390608000;
+
+
+    maxDate = 1398902400;
 
     global_min_date = new Date(minDate * 1000);
     global_max_date = new Date(maxDate * 1000);
@@ -307,6 +339,15 @@ function getForceRecord(data) {
     return force;
 }
 
+function getPassPortData(data) {
+    var passport = [];
+    for (var i = 0; i < data.length; i ++) {
+        if (data[i].PassportIssueDate != 0)
+            passport.push(data[i]);
+    }
+    return passport;
+}
+
 function drawGridLine(data, scaleX, scaleY) {
 
     var targetClass = focus.attr("class");
@@ -373,11 +414,14 @@ function drawFocusCircle(data, scaleX, scaleY) {
     var targetClass = focus.attr("class");
     $( "." + targetClass + " > " + ".employ_circle").remove();
 
-    focus.selectAll(".employ_circle")
+    var focus_employee = focus.selectAll(".employ_circle")
         .data(data)
         .enter()
-        .append("circle")
-        .attr("class", "employ_circle")
+        .append("g")
+        .attr("class", "employ_circle");
+
+    focus_employee.append("circle")
+        .attr("class", "employ_circle_r")
         .attr("r", ht/3)
         .attr("cx", function(d) {
             return scaleX(new Date(d.CurrentEmploymentStartDate * 1000));
@@ -388,16 +432,24 @@ function drawFocusCircle(data, scaleX, scaleY) {
         .attr("fill", "red")
         .on("click", employmentOnClick);
 
+    focus_employee.append("title")
+                    .text(function(d) {
+                        return new Date(d.CurrentEmploymentStartDate * 1000);
+                    })
+
     var forceData = getForceRecord(data);
 
     targetClass = focus.attr("class");
-    $( "." + targetClass + " > " + ".force_circle").remove();
+    $( "." + targetClass + "  " + ".force_circle").remove();
 
-    focus.selectAll(".force_circle")
+    var focus_force = focus.selectAll(".force_circle")
         .data(forceData)
         .enter()
-        .append("circle")
-        .attr("class", "force_circle")
+        .append("g")
+        .attr("class", "force_circle");
+
+    focus_force.append("circle")
+        .attr("class", "force_circle_r")
         .attr("r", ht/3)
         .attr("cx", function(d) {
             return scaleX(new Date(d.forceDischarge * 1000));
@@ -409,12 +461,43 @@ function drawFocusCircle(data, scaleX, scaleY) {
         .on("click", function(d) {
             console.log(d);
         });
+
+    focus_force.append("title")
+                    .text(function(d) {
+                        return (new Date(d.forceDischarge * 1000));
+                    })
+
+    var passportData = getPassPortData(data);
+    var focus_passport = focus.selectAll(".passport_circle")
+        .data(forceData)
+        .enter()
+        .append("g")
+        .attr("class", "passport_circle")
+
+    focus_passport.append("circle")
+        .attr("class", "passport_circle_r")
+        .attr("r", ht/3)
+        .attr("cx", function(d) {
+            return scaleX(new Date(d.PassportIssueDate * 1000));
+        })
+        .attr("cy", function(d) {
+            return scaleY(d.pos + 1);
+        })
+        .attr("fill", "#00FF00")
+        .on("click", function(d) {
+            console.log(d);
+        });
+
+    focus_passport.append("title")
+                    .text(function(d) {
+                        return (new Date(d.PassportIssueDate * 1000));
+                    })
 }
 
 function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
     
     var targetClass = target.attr("class");
-    $( "." + targetClass + " > " + ".experience").remove();
+    $( "." + targetClass + " " + ".experience").remove();
 
     var exps = [];
     for (var i = 0; i < data.length; i ++) {
@@ -430,23 +513,29 @@ function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
     if (targetClass == "focus")
         localHt = ht;
 
-    target.selectAll(".experience")
+    var expnode = target.selectAll(".experience")
         .data(exps)
         .enter()
-        .append("rect")
+        .append("g")
+        .attr("class", "experience")
+        .on("click", experienceClick)
         .attr("uid", function(d) { return d.id; })
         .attr("eid", function(d) { return d.eid; })
-        .attr("class", "experience")
+        .attr("slcted", 0)
         .attr("transform", function(d) {
             return  "translate(" + scaleX(new Date(d.start * 1000)) + "," + (scaleY(d.pos + 1) - ht/2) + ")";
-        })
+        });
+
+    expnode.append("rect")
+        .attr("uid", function(d) { return d.id; })
+        .attr("eid", function(d) { return d.eid; })
+        .attr("class", "rect_experience")
         .attr("width", function(d) {
             var l = scaleX(new Date(d.start * 1000));
             var r = scaleX(new Date(d.end * 1000));
             return r - l;
         })
         .attr("height", localHt)
-        .attr("slcted", 0)
         .style("stroke-width", function() {
             if (useStroke)
                 return 0.5;
@@ -471,8 +560,24 @@ function drawAllExperience(data, target, scaleX, scaleY, height, useStroke) {
             
             d.genre = "work";
             return "gray";
-        })
-        .on("click", experienceClick);
+        });
+
+    expnode.append("title")
+        .text(function(d){
+                var ps = "Position: " + d.position + "&#10;";
+                var lk = "Work location: " + d.location + "&#10;";
+                var sdate = new Date(d.start * 1000);
+                var stime = sdate.getYear() + "/" + sdate.getMonth() + "/" + sdate.getDate();
+                var edate = new Date(d.end * 1000);
+                var etime = edate.getYear() + "/" + edate.getMonth() + "/" + edate.getDate();
+                var edn = "Experience period: " + date2str(sdate,"yy/M/d") + " - " + date2str(edate,"yy/M/d") + "&#10;";
+                var des = "Description: " + d.description + "&#10;";
+
+                var this_row = ps + lk + edn + des;
+
+                var title = $('<div/>').html(this_row).text();
+                return title;
+            });
 }
 
 function drawCheckBox(data, scaleX, scaleY) {
@@ -678,7 +783,8 @@ function generateTable(data) {
             var tr = $(this).closest('tr');
             var row = table.row( tr );
             var dt = row.data();
-            $(this).attr("id", "table_tr_" + dt.id);
+            if (dt != null)
+                $(this).attr("id", "table_tr_" + dt.id);
         });
 
     $('#text_table tbody .table_name')
@@ -736,12 +842,16 @@ function reDrawDiagram(data) {
     // reset the scale domain
     var yp = y;
     var yp2 = y2;
-    yp.domain([0, asyncData.length + 1]);
+    //yp.domain([0, asyncData.length + 1]);//.range([0, global_bar_height * data.length]);
     yp2.domain(yp.domain());
 
     data.sort(function(a, b) {
         return a.pos - b.pos;
     });
+    
+    for (var i = 0; i < data.length; i ++) {
+        data[i].pos = i;
+    }
 
     generateTable(data);
     drawGridLine(data, x, yp);
@@ -776,6 +886,10 @@ function getAsyncExp(uid, eid) {
     }
     return null;
 }
+
+function printDate(dt) {
+    return dt.getYear() + "/" + dt.getMonth() + "/" + dt.getDate();
+} 
 
 // Actions
 // listener for submission button
@@ -847,11 +961,18 @@ function checkboxClick(d) {
             .css("font-weight", "normal");
         dehighlightTableRow(d.id);
     }
-    document.getElementById("table_tr_" + d.id).scrollIntoView();
+
+    if(global_enable_scroll)
+        document.getElementById("table_tr_" + d.id).scrollIntoView();
 }
 
 function nameClick(d) {
     checkboxClick(d);
+}
+
+function nameSelect(d) {
+    if ($("#checkbox" + d.id).attr("ckted") == 0)
+        nameClick(d);
 }
 
 // listener for click on experience rect
@@ -878,12 +999,12 @@ function experienceSelected(uid, eid) {
 
 //highlight experience in main diagram
 function highlightExperience(uid, eid) {
-    $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "2pt");
+    $(".focus  .experience[uid=" + uid + "][eid=" + eid + "]" + "  .rect_experience").css("stroke-width", "2pt");
     highlightTableExperience(uid, eid);
 }
 
 function dehighlightExperience(uid, eid) {
-    $(".focus > .experience[uid=" + uid + "][eid=" + eid + "]").css("stroke-width", "0.5pt");
+    $(".focus  .experience[uid=" + uid + "][eid=" + eid + "]" + "  .rect_experience").css("stroke-width", "0.5pt");
     dehighlightTableExperience(uid, eid);
 }
 
@@ -954,6 +1075,8 @@ function autoSelectionSwitch(d) {
         autoSelectionByLocation(d.location);
     } else if (autoSelection == 3) {
         autoSelectionByTitle(d.position);
+    } else if (autoSelection == 4) {
+        autoSelectionByOverlapping(d);
     }
 }
 
@@ -974,5 +1097,34 @@ function autoSelectionByTitle(title) {
                 experienceSelected(asyncData[i].id, j);
             }
         }
+    }
+}
+
+function autoSelectionByOverlapping(d) {
+    for (var i = 0; i < asyncData.length; i ++) {
+        for (var j = 0; j < asyncData[i].experience.length; j ++) {
+            if (asyncData[i].experience[j].location.indexOf(d.location) != -1) {
+                if (ifOverlapping(d.start, d.end, asyncData[i].experience[j].start, asyncData[i].experience[j].end)) {
+                    experienceSelected(asyncData[i].id, j);
+                }
+            }
+        }
+    }
+    for (var i = 0; i < asyncData.length; i ++) {
+        if (asyncData[i].forceDischarge >= d.start && asyncData[i].forceDischarge <= d.end && d.genre == "force") {
+            nameSelect(asyncData[i]);
+        }
+    }
+}
+
+function ifOverlapping(s1, e1, s2, e2) {
+    if (s1 <= s2) {
+        if (e1 < s2)
+            return false;
+        else return true;
+    } else if (s2 < s1) {
+        if (e2 < s1)
+            return false;
+        else return true;
     }
 }

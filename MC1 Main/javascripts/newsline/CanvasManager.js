@@ -243,14 +243,15 @@ CanvasManager.prototype = {
 			// 		return "white";
 			// })
 			.on("click",function(d){
-				console.log("??!");
-				$("#news_board").remove();
-				$('<div id="news_board">').appendTo('#resume_chart').html(d.dateTime.getFullString()+"<hr><p>"+d.body+"</p>");
+				$("#news_board"+d.id).remove();
+				$('<div id="news_board' + d.id + '">').appendTo('#resume_chart').html(d.dateTime.getFullString()+"<hr><p>"+d.body+"</p>")
+				.attr("title", "news" + d.id);
 				//$("#news_board").html();
 				d3.selectAll("g.node").selectAll("rect")
 					.classed("highlighted",function(dd) {
 						return d.id==dd.id
 					});
+			    $("#news_board"+d.id).dialog();
 			})
 			.on("mouseover",function(d){
 				var idList = {}

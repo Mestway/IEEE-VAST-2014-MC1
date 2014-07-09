@@ -41,6 +41,10 @@ var globalTimelineCount = {height:0,count:0};
 var globalKeywordIndexs = {"people":{},"phrases":{},"keyword":{}} 
 var canvasList = []
 globalData = new DataManager();
+var globalHeight = 0;
+var globalDataSet = [];
+
+var initOrNot = 0;
 
 // Global data from other files:
 //      -- width: from C_resume.js
@@ -54,6 +58,7 @@ d3.json("newsReport.json",function(data){
     var maxHeight = 300;
     var unitHeight = 6;
     var height = unitHeight*globalData.data.maxCount;
+    globalHeight = height;
     height = maxHeight < height ? maxHeight : height;
     var pos = {x:0,y:0,width:width,height:height,svgName:"news_timeline"};
     canvasManager2 = new CanvasManager("onContext", {x:0, y:0, width: width, height: 70, svgName: "onContext"});
@@ -65,22 +70,91 @@ d3.json("newsReport.json",function(data){
     canvasList.push(canvasManager)
 })
 
+var timelineNo = 1;
+
 function addTimeline(data, yCount, existingHeight, title, svgName){
+    initOrNot ++;
+    $("#barChart" + timelineNo).remove();
     //var maxHeight = $("#leftView").height()-100;
-    var maxHeight = 100;
-    var unitHeight = 3;
+    var maxHeight = 300;
+    var unitHeight = 6;
     var height = unitHeight * yCount;
     height = (maxHeight < height) ? maxHeight : height;
-    var pos = {x:70, y:existingHeight+50 + 2, width:$("#leftView").width()-100, height:height, svgName:svgName};
+    var pos = {x:0, y:existingHeight * timelineNo, width:width,height:height, svgName:svgName};
 
-    var myCanvas = new CanvasManager(svgName, pos, title, globalTimelineCount.count)
-    globalTimelineCount.count++;
+    var myCanvas = new CanvasManager(svgName, pos, title, timelineNo);
+    //globalTimelineCount.count ++;
+    if (timelineNo == 1)
+        timelineNo = 2;
+    else
+        timelineNo = 1;
 
-    if(height<10){
+    if(height < 10){
         height = 10;
     }
 
     globalTimelineCount.height += (height + 2);
     myCanvas.updateData({data:data}, timeMatch, true, true);
     canvasList.push(myCanvas);
+}
+
+function sumitFilter(d) {
+    var filteredData = globalData.filterByKeyword(globalData.data,d);
+
+    globalDataSet[timelineNo-1] = filteredData;
+    addTimeline(filteredData, filteredData.maxCount, globalHeight, d, "news_timeline");
+}
+
+$("#news_filter > #submit_keyword")
+    .click(function () {
+        sumitFilter($("#keyword_input").val());
+    });
+
+$("#news_filter > #intersect")
+    .click(function () {
+        intersect();
+    });
+
+$("#news_filter > #union")
+    .click(function () {
+        union();
+    });
+
+$("#news_filter > #difference")
+    .click(function () {
+        difference();
+    });
+
+
+function intersect() {
+    var filteredData = [];
+    if (initOrNot < 2)
+        return;
+    //console.log(globalDataSet);
+
+    var filteredData = globalData.intersectData(globalDataSet[0], globalDataSet[1]);
+    globalDataSet[timelineNo-1] = filteredData;
+    addTimeline(filteredData, filteredData.maxCount, globalHeight, "Intersect Result", "news_timeline");
+}
+
+function union() {
+    var filteredData = [];
+    if (initOrNot < 2)
+        return;
+    //console.log(globalDataSet);
+
+    var filteredData = globalData.unionData(globalDataSet[0], globalDataSet[1]);
+    globalDataSet[timelineNo-1] = filteredData;
+    addTimeline(filteredData, filteredData.maxCount, globalHeight, "Union Result", "news_timeline");
+}
+
+function difference() {
+    var filteredData = [];
+    if (initOrNot < 2)
+        return;
+    //console.log(globalDataSet);
+
+    var filteredData = globalData.differenceData(globalDataSet[0], globalDataSet[1]);
+    globalDataSet[timelineNo-1] = filteredData;
+    addTimeline(filteredData, filteredData.maxCount, globalHeight, "Difference Result", "news_timeline");
 }
