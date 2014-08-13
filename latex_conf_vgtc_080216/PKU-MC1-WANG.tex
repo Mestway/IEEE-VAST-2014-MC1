@@ -1,6 +1,6 @@
 % $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
 \newcommand{\todo}[1]{{\bf \{TODO: {#1}\}}}
-\newcommand{\ourname}{News Timeline}
+\newcommand{\projectname}{News Timeline}
 
 \documentclass{vgtc}                          % final (conference style)
 %\documentclass[review]{vgtc}                 % review
@@ -50,7 +50,7 @@
 
 %% Paper title.
 
-\title{News Timeline: An Visual Analysis Tool for Heterogeneous Data Sources}
+\title{\projectname: A Visual Analysis Tool for Heterogeneous Text Data}
 
 %% This is how authors are specified in the conference style
 
@@ -112,20 +112,21 @@
 \maketitle
 
 Exploring heterogeneous data from different sources can be complicated and error pruning if not well dealt with hidden relationship between entities or possible data conflicts between materials. 
-In the MC1 of VAST Challenge 2014, to extract relationship between POK and GAStech we need to extract important people from different sources of file, e.g. employee resume, email, research report, and a huge volume of news with conflits. 
-In our design of the analysis tool \ourname. \todo{Choose a better name for our tool}, we integrate different kinds of source files into a timeline-based view, providing a quick overview for user to choose important file to focus for efficiency. 
+In the MC1 of VAST Challenge 2014, to extract relationship between POK and GAStech we need to extract important people from different sources of file, e.g. employee resume, email, research report, and a huge volume of news with conflicts. 
+In our design of the analysis tool \projectname. \todo{Choose a better name for our tool}, we integrate different kinds of source files into a timeline-based view, providing a quick overview for user to choose important file to focus for efficiency. 
 \par
-Our design mainly consists of three parts, namely resume viewer, news timeline, and email reader. \todo{Is this right?} Cooperating with tools like Jigsaw and Google fusion, we can quickly extract important events and entities from massive data.
+In this poster, we will first introduce our design consideration of visual analysis tools for heterogeneous data and then introduce how we use these tools to analyze MC1 data to solve these problems.
 %% \section{Introduction} 
 
 %eg.\cite{kitware2003,Max:1995:OMF}
 
 \section{Design Priciples}
-\todo{Explain what do we concern about in our design and how did we solve them.}
+Data provided in MC1 mainly includes 845 news articles, 35 resumes, employee records, email headers and some other report on both POK and Kronos. These data have the following features: 1. 
+
 
 \section{Visualization Tools}
 \subsection{Resume reader}
-\begin{figure}[htb]
+\begin{figure}[htb!]
   \centering
   \includegraphics[width=3in]{image009.png}
   \caption{Resumer viewer}
