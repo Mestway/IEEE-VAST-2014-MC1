@@ -136,8 +136,21 @@ Resume reader is the fisrt paragraph.
 \subsection{News timeline}
 \todo{Finish description for newstimeline.}
 
+
 \subsection{Email Reader}
 \todo{Finish dealing with email reader.}
+\subsubsection{Design And Overview}
+In MC1 we have email headers from two weeks of internal GAStech company email, we can get a social network from this data and then discover communities. For MC1, we need to reveal the connections between GAStech employees and to find suspectable clues including the subject of emails. If there is an email containing words related to POK, then we can try to find the connections between the sender of the email's community and POK. Therefore we implemented a visual analytic tool for email headers based on D3.js. The tool is easy to use and effective to discover communities. 
+
+\subsubsection{Layout And User Interactions}
+Our tool's layout containing four components, filters, email sending and receiving timeline, email headers view, and community view.
+After selecting an employee through the filter, his/her email records will be depicted on the timeline, the contents of email headers will be put in the email headers view and some communities including him/her will be showed in the community view.  \\
+Users can interact with the layout both directly and indirectly, including selecting employees, filtering by keywords and limiting. 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3in]{image_et.png}
+  \caption{Email Reader}
+\end{figure}
 
 \section{Data Exploration}
 \todo{Describe how do we explore data sources to extract details.}
