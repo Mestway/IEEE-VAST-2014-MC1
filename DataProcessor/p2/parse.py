@@ -19,8 +19,9 @@ for j in reader:
 			ifExist = True
 			corresRecord = i
 	if ifExist:
+		#corresRecord["PassportIssueDate"] = 0
 		if j[9] == "":
-			i["PassportIssueDate"] = 0
+			corresRecord["PassportIssueDate"] = 0
 		else:
 			s = string.split(j[9], "/")
 			passportIssue = datetime.date(int(s[0]), int(s[1]), int(s[2]))
@@ -50,6 +51,13 @@ for j in reader:
 		exp["description"] = ""
 		exp["start"] = temp["CurrentEmploymentStartDate"]
 		exp["end"] = (datetime.date(2014,01,21) - datetime.date(1970,1,1)).total_seconds()
+		if j[9] == "":
+			temp["PassportIssueDate"] = 0
+		else:
+			s = string.split(j[9], "/")
+			passportIssue = datetime.date(int(s[0]), int(s[1]), int(s[2]))
+			temp["PassportIssueDate"] = (passportIssue - datetime.date(1970,1,1)).total_seconds()
+
 		temp["experience"].append(exp)
 
 		temp["specialty"] = []
@@ -59,6 +67,9 @@ for j in reader:
 		temp["Gender"] = j[4]
 
 		resume.append(temp)
+
+for xx in resume:
+	print xx["PassportIssueDate"]
 
 json1 = json.dumps(resume)
 f = open('workfile', 'w')

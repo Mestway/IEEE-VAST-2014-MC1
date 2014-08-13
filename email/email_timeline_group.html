@@ -17,8 +17,13 @@
     position: absolute;
 }
 
-#right-column {
+#middle-column {
     width: 800px;
+    float: right;
+    pointer-events: none;
+}
+#right-column {
+    width: 200px;
     float: right;
     pointer-events: none;
 }
@@ -137,7 +142,8 @@ div.tooltip {
 
   var groupName = ["Administration","Engineering","Executive","Facilities","Information Technology","Security"];
 
-  var svg = d3.select("body").append("div")
+  var svg = d3.select("body")
+    .append("div")
     .attr("class", "email-timeline")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -314,11 +320,36 @@ div.tooltip {
     }
   }
 
+  function groupSize(em){
+    var cnt = 0;
+    for (var i = 0; i < 32; i++)
+    {
+      if ((em.to1 & (1 << i)) != 0) cnt ++;
+      if ((em.to2 & (1 << i)) != 0) cnt ++;
+    }
+    if (em.from < 32)
+    {
+      if ((em.to2 & (1 << em.from)) != 0) cnt --;
+    }
+    else
+    {
+      if ((em.to1 & (1 << (em.from - 32))) != 0) cnt --; 
+    }
+
+    return cnt + 1;
+  }
+
   var dotset = new Array(), lineset = new Array();
 
   function showPerson(){
     var i;
     var pid = document.getElementById('sel').selectedIndex - 1;
+    var keyword = document.getElementById('kw1').value;
+    var maxSize;
+    if (!document.getElementById('gsize').value) maxSize = 54;
+      else maxSize = document.getElementById('gsize').value;
+    console.log(maxSize);
+    //console.log(keyword);
     var dateFormat = d3.time.format("%m/%d/%Y %H:%M");
     selected_people = new Array();
     selected_people.push(pid);
@@ -356,13 +387,18 @@ div.tooltip {
                 .remove();
     //console.log(ss);
     //ss.remove();
+    //email_group = new Array();
 
 //Emails Sent by PID
     dotset = new Array();
     for (i in emails){
       if (emails[i].from == pid)
       {
-        dotset.push(i);
+        if (keyword.length > 0)
+          if (emails[i].subject.toLowerCase().indexOf(keyword.toLowerCase()) == -1) continue; 
+        if (groupSize(emails[i]) <= maxSize)
+          dotset.push(i);
+
         //console.log(i);
       }
     }
@@ -470,11 +506,15 @@ div.tooltip {
 
 // Emails Received by PID
 
-   dotset = new Array();
-    for (i in emails){
+    dotset = new Array();
+    for (i in emails)
+    {
+      if (keyword.length > 0)
+          if (emails[i].subject.toLowerCase().indexOf(keyword.toLowerCase()) == -1) continue; 
+      if (groupSize(emails[i]) > maxSize) continue;
       if (pid >= 32)
       {
-        if ((emails[i].to1 & (1 << (pid - 32))) > 0)
+        if ((emails[i].to1 & (1 << (pid - 32))) != 0)
         {
           dotset.push(i);
           //console.log(i);
@@ -482,7 +522,7 @@ div.tooltip {
       }
       else
       {
-        if ((emails[i].to2 & (1 << pid)) > 0)
+        if ((emails[i].to2 & (1 << pid)) != 0)
         {
           dotset.push(i);
           //console.log(i);
@@ -566,15 +606,6 @@ div.tooltip {
 }
 </script>
 
-<div id="container">
-  <div id="left-column">
-    <form name="form1" onChange="showPerson()">
-      <select name="sel" id="sel" onFocus="mySelect()">
-    </form> 
-  </div>
-  <div id="right-column"> </div>
-</div>
-
 <script type="text/javascript">
 function sortNumber(a,b){
   //console.log(a + "," + b);
@@ -648,7 +679,8 @@ function sortNumber(a,b){
       if (a.groupcnt[i] > 0) cnta ++;
       if (b.groupcnt[i] > 0) cntb ++;
     }
-    return cntb - cnta;
+    if (cntb != cnta) return cntb - cnta;
+      else return sortFreq(a,b);
   }
 
   function showGroup(spList)
@@ -673,7 +705,12 @@ function sortNumber(a,b){
 
       for (var i in spList)
       {
-        var j = spList[i];
+        if (i > 0) break;
+      
+        
+        
+        var j = spList[0];
+        console.log(j);
         flag = -1;
         if (j > 31)
         {
@@ -683,7 +720,7 @@ function sortNumber(a,b){
         {
           y = 1 << j;
         }
-        if (((j > 31) && ((x.state1 & y) > 0)) || ((j <= 31) && ((x.state2 & y) > 0)))
+        if (((j > 31) && ((x.state1 & y) != 0)) || ((j <= 31) && ((x.state2 & y) != 0)))
         {
            flag = 1;
         }
@@ -695,63 +732,97 @@ function sortNumber(a,b){
       }
     }
     
+    svg_group.append("svg:text")
+      .attr("transform", "translate(" + 0  + "," + 140 + ")")
+      .text("Email groups containing chosen people, sorted by frequence");
+    svg_group.append("svg:text")
+      .attr("transform", "translate(" + 0  + "," + 350 + ")")
+      .text("Email groups containing chosen people, sorted by diversity");
     groupList.sort(sortFreq);
-    //console.log(groupList);
+    console.log(groupList);
 
-   // for (var i in groupList)
-   var i = 1;
+    for (var i in groupList)
+   //var i = 1;
     {
+      if (i > 3) break;
       var temp = new Array();
       //var x = groupList[i];
       var x = groupList[i];
-    
+      console.log(x);
       for (var j = 0; j < 32; j ++)
-            if ((x.state1 & (1 << (j + 32))) > 0) temp.push(j + 32);
-          for (var j = 0; j < 32; j ++)
-            if ((x.state2 & (1 << j)) > 0) temp.push(j);
+        if ((x.state1 & (1 << (j + 32))) != 0) temp.push(j + 32);
+      for (var j = 0; j < 32; j ++)
+        if ((x.state2 & (1 << j)) != 0) temp.push(j);
     
 
-      //console.log(temp);
-      drawGroup(temp, i, 0)
+      //console.log((1 << 31) & x.state2);
+      drawGroup(temp, i, 0, spList[0]);
 
     }
 
     groupList.sort(sortGroup);
-    //for (var i in groupList)
-    var i = 1;
+    for (var i in groupList)
+    //var i = 1;
     {
+      if (i > 3) break;
       var temp = new Array();
       //var x = groupList[i];
       var x = groupList[i];
     
       for (var j = 0; j < 32; j ++)
-            if ((x.state1 & (1 << (j + 32))) > 0) temp.push(j + 32);
+            if ((x.state1 & (1 << (j + 32))) != 0) temp.push(j + 32);
           for (var j = 0; j < 32; j ++)
-            if ((x.state2 & (1 << j)) > 0) temp.push(j);
+            if ((x.state2 & (1 << j)) != 0) temp.push(j);
     
 
       //console.log(temp);
-      drawGroup(temp, i, 1)
+      drawGroup(temp, i, 1, spList[0]);
 
     }
   }
 
-  function drawGroup(dataset, xOffset, yOffset){
-      arcs = svg_group.append("svg:g")
+  function drawGroup(dataset, xOffset, yOffset, selected){
+    console.log(selected);
+      var arcs = svg_group.append("svg:g")
         .selectAll("g.arc")
         .data(group_pie(dataset))
         .enter()
         .append("g")
         .attr("class", "arc")
-        .attr("transform", "translate(" + xOffset * 180  + "," + yOffset * 180 + ")");;
+        .attr("transform", "translate(" + xOffset * 180  + "," + yOffset * 240 + ")");;
      //Draw arc paths
       arcs.append("path")
+        .attr("class", function(d){
+          return "pie-" + xOffset + "-" +d.data;
+        })
         .attr("fill", function(d) {
           //console.log(d)
           return color(employee[d.data].group);
         })
-        .attr("stroke-width", "1")
+        .attr("stroke-width", function(d){
+          //if (d.data == selected) return "2";
+            return "1";
+        })
+        .on("mouseover", function(d){
+          //console.log(xOffset + "-" + d.data);
+          arcs.select("path.pie-" + xOffset + "-" + d.data)
+            .style("opacity", 0.6);
+        })
+        .on("mouseout", function(d){
+          arcs.select("path.pie-" + xOffset + "-" + d.data)
+            .style("opacity", 1.0);
+        })
+        .on("click", function(d){
+          document.getElementById('sel').selectedIndex = d.data + 1;
+          document.getElementById('kw1').value = "";
+          document.getElementById('gsize').value = null;
+          showPerson([d.data]);
+        })
         .style("stroke", "White")
+        .style("opacity", function(d){
+          //if (d.data == selected) return 0.6;
+            return 1.0;
+        })
         .attr("d", arc);
     
   /*  //Labels
@@ -780,10 +851,24 @@ function sortNumber(a,b){
              d.outerRadius = (height/2); // Set Outer Coordinate
              return "translate(" + arc.centroid(d) + ")rotate(" + angle(d, -90, 90) + ")";
            })
-          .style("fill", "Black")
+          .style("fill", function(d){
+            //console.log(d.data);
+            //if (d.data == selected) return "steelblue";
+              return "Black"; 
+          })
           .attr("font-family", "sans-serif")
-          .attr("font-size", "9px")
+          .attr("font-weight", function(d){
+            //console.log(d.data);
+            if (d.data == selected) return "900";
+              return "400"; 
+          })
+          .attr("font-size", function(d){
+            if (d.data == selected) return "11px";
+              return "9px";
+          })
+
           .text(function(d) { return employee[d.data].name /* + " " + Math.round(angle(d, 0, 0)) */ ; });
+      //svg_group.selectAll(".text" + type).classed("active", true);
   }
 // Computes the angle of an arc, converting from radians to degrees.
   function angle(d, offset, threshold) {
@@ -792,6 +877,23 @@ function sortNumber(a,b){
   }
 
 </script>
+
+
+<div id="container">
+  <div id="left-column">
+    <form name="form1" onChange="showPerson()">
+      <select name="sel" id="sel" onFocus="mySelect()"> </select>
+    </form> 
+    <form name = "form_keyword" onsubmit="showPerson()">
+      Input keywords:<input type="text" name="kw1" id="kw1" >
+      Input the maximum group size:<input ime-mode:disabled name="gsize" id="gsize" onkeydown = "if(event.keyCode==13)event.keyCode=9" onKeyPress = "if ((event.keyCode<48 || event.keyCode>57)) event.returnValue=false"> 
+      <input type="button" id="submitbtn" value="onCliCk_onsubmit" onCliCk="document.forms[1].onsubmit()">
+
+    </form>
+  </div>
+  <div id = "middle-column"> </div>
+  <div id = "right-column"> </div>
+</div>
 
 </body>
 </html>
