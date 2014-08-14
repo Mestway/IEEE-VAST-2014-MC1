@@ -1,24 +1,26 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2014.3.11)  14 AUG 2014 00:40
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2013.11.19)  15 AUG 2014 02:33
 entering extended mode
-**D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/PKU-MC1-WANG.tex
-(D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/PKU-MC1-WANG.tex
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**PKU-MC1-WANG.tex
+(./PKU-MC1-WANG.tex
 LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for loaded.
-(D:\Project\VAST_CHALLENGE\Challenge1\latex_conf_vgtc_080216\vgtc.cls
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+(./vgtc.cls
 Document Class: vgtc 2006/05/21 IEEE VGTC
-("F:\Software 01\CTEX\MiKTeX\tex\latex\base\article.cls"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-("F:\Software 01\CTEX\MiKTeX\tex\latex\base\size10.clo"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
-\c@part=\count79
-\c@section=\count80
-\c@subsection=\count81
-\c@subsubsection=\count82
-\c@paragraph=\count83
-\c@subparagraph=\count84
-\c@figure=\count85
-\c@table=\count86
+\c@part=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -30,7 +32,7 @@ File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \abstxtspace=\skip45
 \vgtc@copyrightlength=\skip46
 )
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\mathptmx.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/mathptmx.sty
 Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
 LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
@@ -66,200 +68,148 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
 LaTeX Info: Redefining \hbar on input line 50.
 )
-("F:\Software 01\CTEX\MiKTeX\tex\latex\graphics\graphicx.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\graphics\keyval.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-("F:\Software 01\CTEX\MiKTeX\tex\latex\graphics\graphics.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\graphics\trig.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-("F:\Software 01\CTEX\MiKTeX\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: xetex.def on input line 91.
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\pdftex-def\pdftex.def"
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+(/usr/local/texlive/2013/texmf-dist/tex/xelatex/xetex-def/xetex.def
+File: xetex.def 2013/04/29 v0.96 LaTeX color/graphics driver for XeTeX (RRM/JK)
 
-("F:\Software 01\CTEX\MiKTeX\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
-)
-("F:\Software 01\CTEX\MiKTeX\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
-)
-\Gread@gobject=\count87
 ))
 \Gin@req@height=\dimen105
 \Gin@req@width=\dimen106
 )
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\times.sty"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
-(D:\Project\VAST_CHALLENGE\Challenge1\latex_conf_vgtc_080216\PKU-MC1-WANG.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 104.
+(./PKU-MC1-WANG.aux)
+\openout1 = `PKU-MC1-WANG.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
+LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 105.
 
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\ot1ptm.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 \big@size=\dimen107
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 113.
 
-("F:\Software 01\CTEX\MiKTeX\tex\context\base\supp-pdf.mkii"
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count88
-\scratchdimen=\dimen108
-\scratchbox=\box26
-\nofMPsegments=\count89
-\nofMParguments=\count90
-\everyMPshowfont=\toks15
-\MPscratchCnt=\count91
-\MPscratchDim=\dimen109
-\MPnumerator=\count92
-\makeMPintoPDFobject=\count93
-\everyMPtoPDFconversion=\toks16
-)
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 112.
 
- ("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\ot1phv.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 113.
 LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 11
-2.
+3.
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\ot1ztmcm.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
 LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 11
-2.
+3.
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\omlztmcm.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
 LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 11
-2.
+3.
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\omsztmcm.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
 LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 11
-2.
+3.
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\omxztmcm.fd"
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
-LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
+LaTeX Font Info:    Calculating math sizes for size <7.4> on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5.47603> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <4.44003> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 112.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 112.
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 113.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 112.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 113.
+File: SingleExperienceLine1.png Graphic file (type QTm)
+
+<use  "SingleExperienceLine1.png" >
+File: SingleExperienceLine2.png Graphic file (type QTm)
+ <use  "SingleExperienceLine2.png" >
+[1
 
 
-("F:\Software 01\CTEX\MiKTeX\tex\latex\psnfss\omsptm.fd"
+]
+File: image017.png Graphic file (type QTm)
+ <use  "image017.png" >
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 164.
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 
 LaTeX Font Warning: Font shape `OMS/ptm/bx/n' undefined
 (Font)              using `OMS/ptm/m/n' instead
-(Font)              for symbol `textbraceleft' on input line 112.
+(Font)              for symbol `textbraceleft' on input line 164.
 
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 112.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 164.
 LaTeX Font Info:    Font shape `OMS/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 112.
-<SingleExperienceLine1.png, id=1, 577.40718pt x 18.0675pt>
-File: SingleExperienceLine1.png Graphic file (type png)
-
-<use SingleExperienceLine1.png>
-Package pdftex.def Info: SingleExperienceLine1.png used on input line 145.
-(pdftex.def)             Requested size: 216.81pt x 6.7841pt.
-
-<SingleExperienceLine2.png, id=2, 1415.2875pt x 234.8775pt>
-File: SingleExperienceLine2.png Graphic file (type png)
-
-<use SingleExperienceLine2.png>
-Package pdftex.def Info: SingleExperienceLine2.png used on input line 147.
-(pdftex.def)             Requested size: 216.81pt x 35.97914pt.
-
-<image017.png, id=3, 1900.09875pt x 853.1875pt>
-File: image017.png Graphic file (type png)
- <use image017.png>
-Package pdftex.def Info: image017.png used on input line 159.
-(pdftex.def)             Requested size: 216.81pt x 97.33989pt.
- [1{F:/Software 01/CTEX/UserData/pdftex/config/pdftex.map{Unicode.sfd}{UGBK.sfd
-}}
-
-
- <D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/SingleExperienceL
-ine1.png> <D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/SingleEx
-perienceLine2.png>] <image_et.png, id=14, 1279.78125pt x 744.7825pt>
-File: image_et.png Graphic file (type png)
- <use image_et.png>
-Package pdftex.def Info: image_et.png used on input line 174.
-(pdftex.def)             Requested size: 216.81pt x 126.16814pt.
-
-(D:\Project\VAST_CHALLENGE\Challenge1\latex_conf_vgtc_080216\PKU-MC1-WANG.bbl)
-[2 <D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/image017.png> <
-D:/Project/VAST_CHALLENGE/Challenge1/latex_conf_vgtc_080216/image_et.png>]
-(D:\Project\VAST_CHALLENGE\Challenge1\latex_conf_vgtc_080216\PKU-MC1-WANG.aux)
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 164.
+File: image_et.png Graphic file (type QTm)
+<use  "image_et.png" > (./PKU-MC1-WANG.bbl) [2] (./PKU-MC1-WANG.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 1525 strings out of 495354
- 21112 string characters out of 3183187
- 76567 words of memory out of 3000000
- 4679 multiletter control sequences out of 15000+200000
- 44871 words of font info for 88 fonts, out of 3000000 for 9000
- 14 hyphenation exceptions out of 8191
- 35i,15n,21p,657b,336s stack positions out of 5000i,500n,10000p,200000b,50000s
-{F:/Software 01/CTEX/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<F:/Software 01/C
-TEX/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><F:/Software 01/CTEX/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmsy9.pfb><F:/Software 01/CTEX/MiKTeX/fonts/ty
-pe1/urw/helvetic/uhvb8a.pfb><F:/Software 01/CTEX/MiKTeX/fonts/type1/urw/helveti
-c/uhvr8a.pfb><F:/Software 01/CTEX/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><F:/S
-oftware 01/CTEX/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><F:/Software 01/CTEX/Mi
-KTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PKU-MC1-WANG.pdf (2 pages, 781633 bytes).
-PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 943 strings out of 493938
+ 12679 string characters out of 6148856
+ 68507 words of memory out of 5000000
+ 4264 multiletter control sequences out of 15000+600000
+ 30059 words of font info for 70 fonts, out of 8000000 for 9000
+ 1144 hyphenation exceptions out of 8191
+ 35i,15n,21p,631b,336s stack positions out of 5000i,500n,10000p,200000b,80000s
 
+Output written on PKU-MC1-WANG.pdf (2 pages).

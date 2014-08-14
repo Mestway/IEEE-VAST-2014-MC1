@@ -50,7 +50,7 @@
 
 %% Paper title.
 
-\title{\projectname: A Visual Analysis Tool for News Data}
+\title{\projectname: A Visual Analysis Tool for Heterogeneous Text Data}
 
 %% This is how authors are specified in the conference style
 
@@ -80,7 +80,8 @@
 %}
 
 %% Abstract section.
-\abstract{\todo{Add the abstract after complete the summary}
+\abstract{
+In this paper, we propose \projectname\ , a visual analytic system for text data from multiple sources. With various visualizations, our system can help analysts identify conflicts and correlations in large volume of text data, and detect patterns of group of people. Thus analysts can discover the development of events and find the suspicious people in the events.
 } % end of abstract
 
 %% ACM Computing Classification System (CCS). 
@@ -111,34 +112,33 @@
 
 \maketitle
 
-Exploring heterogeneous news data from different sources can be complicated and error pruning if not well dealt with hidden relationship between entities or possible data conflicts between materials. 
-In the MC1 of VAST Challenge 2014, to extract relationship between POK and GAStech we need to extract important people from different sources of file, e.g. employee resume, email, research report, and a huge volume of news with conflicts. 
-In our design of the analysis tool \projectname\ we integrate different kinds of source files into a timeline-based view, providing a quick overview for user to choose important file to focus for efficiency. 
+Exploring heterogeneous text data from different sources can be complicated and with error pruning if not well dealing with hidden relationship between entities or possible data conflicts between materials. 
+In the MC1 of VAST Challenge 2014, to reveal potential relationship between POK and GAStech, we need to extract important people from different sources of files, e.g. employee resumes, email headers, research reports, and a huge volume of news with conflicts. 
+In our design of the analysis tool \projectname\ , we integrate different kinds of source files into a timeline-based view, providing a quick overview for users to choose important file to focus on for efficiency. 
 \par
-In this poster, we will first introduce our design consideration of visual analysis tools for heterogeneous data and then introduce how we use these tools to analyze MC1 data to solve these problems.
+In this paper, we will first introduce our design consideration of visual analysis tools for heterogeneous text data and then introduce how we use these tools to analyze MC1 data and to solve these problems.
 %% \section{Introduction} 
 
 %eg.\cite{kitware2003,Max:1995:OMF}
 
 \section{Design Challenges}
-Data provided in MC1 mainly includes 845 news articles, 35 resumes, employee records, email headers and some other report on both POK and Kronos. As the data volume is large, we need to provide an efficient overview to put important data together. Challenges we face in our design of \projectname\ focus are listed below:
+Data provided in MC1 mainly includes 845 news articles, 35 resumes, employee records, 1171 email headers and some other reports on both POK and Kronos. As the data volume is so large, we need an efficient overview to put important data together. Main challenges that we face in our design of \projectname\ are listed below:
 \paragraph{Data correlation and data conflicts}
-In MC1, data are overlapping and thus there exists correlation and conflicts. For example, both resume and employee records present GAStech employee information, and report on POK and Kronos cover some information in news articles. And thus we have challenges to present data visualization: On the one hand, our tool needs to enable user to extract information from multiple sources as there exists relationship.
-But on the other hand, we need to give obvious hints for data conflicts and provide detailed data to help the user resolve these conflicts. 
+In MC1, data are greatly overlapping and thus there exists correlation and conflicts. For example, both resume and employee records present GAStech employees' information, and reports on POK and Kronos cover some information in news articles. Therefore we have challenges to present data visualization: On the one hand, our tool must enable users to extract information from multiple sources as they do contain the relationship which we need. On the other hand, we need to give obvious hints for data conflicts and provide details to help the users resolve these conflicts. 
 \paragraph{Manipulating data at high level}
-MC1 data in news articles and email headers cannot be easily presented due to there large volume. Existing tools like Jigsaw and Google Fusion are great to deal with text visualization but they don't provide exploration in high level and thus a user will not have a quick start to focus on interesting data. And thus challenge exists to provide the user a high level manipulation of data to understand data distribution or event trends before reading detailed data with Jigsaw or Google Fusion.
+MC1 data in news articles and email headers cannot be easily presented due to their large volume. Existing tools like Jigsaw and Google Fusion are great to deal with text visualization, however, they don't provide exploration in a higher level and thus users won't have a quick start to focus on data which they are interested in. So challenge exists in providing the users with high level manipulation of data to understand data distribution or the trend of development before reading detailed data with Jigsaw or Google Fusion.
 
 \section{Visualization Tools}
-In this section, we introduce our tool design and how we deal with challenges mentioned in the last section.
+In this section, we will introduce our tool design and how we deal with challenges mentioned above.
 \par
-Our tool \projectname\ includes Resume-Reader for GASTech employee information, News-Timeline for news articles and Email-Reader for identifying mailing group from email headers. We will explain our design of these three views in detailed below.
+Our tool \projectname\ includes Resume-Reader for GASTech employee information, News-Timeline for news articles and Email-Reader for identifying mailing communities from email headers. We will explain our design of these three views in detailed below.
 \subsection{Resume Reader}
-VAST challenge 2014 focus on rescuing missing people, thus employees of GAStech play an significant role in the whole event. Resume Reader integrated employee records with their resume, and allow user to identify suspicious people using conflicts presented in the view and identify potential suspicious group by reading their experience line. The goal we want to achieve with this tool is to expose text conflicts and to identify potential groups in GASTech.
+VAST Challenge 2014 focuses on rescuing missing people, thus employees of GAStech play an significant role in the whole event. Resume Reader integrates employee records with their resume, and allow users to identify suspicious people according to conflicts presented in the view and identify potential suspicious groups by reading their experience timeline. The goal we want to achieve with this tool is to expose text conflicts and to identify potential communities in GASTech.
 \paragraph{Exposing Conflicts}
-We think conflicts between resume and employee records may expose potential forged resume to help identify suspicious people. By integrating temporal information from two sources into experience timeline, Resume Reader provides a clear view for user to identify text conflicts. Experiences are presented as rectangle and important dates are highlighted in the timeline, thus user can identify conflicts and then refer to detailed description to check it.
+We think that conflicts between resume and employee records may expose potential forged resume to help identify suspicious people. By integrating temporal information from two sources into experience timeline, Resume Reader provides a clear view for users to identify text conflicts. Experiences are presented as small squares and important dates are highlighted in the timeline, thus users can identify conflicts and then refer to detailed description to check it.
 
 \paragraph{Identify Potential Relationship}
-Another thing we consider important in design of Resume Reader is to provide user the ability to identify potential relationship based on shared working or education experience, as sharing experience in a same place for a long time may lead to the formation of a group in GAStech. Dragging and filtering function are designed for this consideration.
+Another thing which we consider important in the design of Resume Reader is to enable users to identify potential relationship based on common working or education experience, as common experience in the same place for a long time may lead to the formation of a community. When these people are all in GAStech, it's likely that they will form a group of their own. Dragging and filtering function are designed for this consideration.
 
 \begin{figure}[htb!]
   \centering
@@ -149,11 +149,11 @@ Another thing we consider important in design of Resume Reader is to provide use
 \end{figure}
 
 \subsection{News timeline}
-News timeline is designed to provide a quick view for the user to grab the development of an event and then select a focus point to analysis. 
+News timeline is designed to provide a quick view for the users to grab the development of an event and then focus on certain points to analyze. 
 \par
-As the volume of news data is large, simply display news in a timing can be imbalance and with a lot of overlapping in a period of time. Semantic zooming is used in News Timeline, which make it possible to provide a compact view in the timeline when the time range is long and provide news position precisely when the range is short.
+As the volume of news data is large, simply displaying news in a timeline may be imbalance and will result in a lot of overlapping in a short period of time. So semantic zooming is used in News Timeline, which makes it possible to provide a compact view in the timeline when the time range is long and provide news position precisely when the range is short.
 \par
-Aside rooming function, News Timeline provide visual set operation on timelines. Every time user search a keyword, a new timeline will be generated and display on the screen. As timeline operation are allowed for user, a user can do set operations between them to refine the result he find. Draggable dialogs are also provided to refine data, user can pick up important news he find and arrange them in the timeline by dragging to prepare for further investigation.
+Aside rooming function, News Timeline provides visual set operation on timelines. Every time a user searches a keyword, a new timeline will be generated and displayed on the screen. As timeline operations are allowed for users, a user can do set operations between them to refine the result he/she finds. Draggable dialogs are also provided to refine the data: a user can pick up important news he/she finds and arranges them in the timeline by dragging to prepare for further investigation.
 \begin{figure}[htb!]
   \centering
   \includegraphics[width=3in]{image017.png}
@@ -162,13 +162,13 @@ Aside rooming function, News Timeline provide visual set operation on timelines.
 
 \subsection{Email Reader}
 \todo{Is that complete?}
-\subsubsection{Design And Overview}
+\paragraph{Design And Overview}
 In MC1 we have email headers from two weeks of internal GAStech company email, we can get a social network from this data and then discover communities. For MC1, we need to reveal the connections between GAStech employees and to find suspectable clues including the subject of emails. If there is an email containing words related to POK, then we can try to find the connections between the sender of the email's community and POK. Therefore we implemented a visual analytic tool for email headers based on D3.js. The tool is easy to use and effective to discover communities. 
 
-\subsubsection{Layout And User Interactions}
+\paragraph{Layout And User Interactions}
 Our tool's layout containing four components, filters, email sending and receiving timeline, email headers view, and community view.
 After selecting an employee through the filter, his/her email records will be depicted on the timeline, the contents of email headers will be put in the email headers view and some communities including him/her will be showed in the community view.  \\
-Users can interact with the layout both directly and indirectly, including selecting employees, filtering by keywords and limiting. 
+Users can interact with the layout both directly and indirectly, including selecting employees, filtering by keywords and limiting the size of groups. When a user consider a keyword or a person to be suspicious, he/she can easily see people who send the suspicious emails or are close to the suspicious person.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=3in]{image_et.png}
@@ -182,15 +182,15 @@ As our tool only provides an overview of the whole data, we still need to use Ji
 1. Read report on POK and GAStech to identify important people involved in the conflicts.
 2. With important entities identified, using News Timeline to refine keywords.
 3. Cooperated with Jigsaw to read news articles and find relationship between POK and GAStech.
-4. Identify important groups and identify suspicious people with Resume Reader and Email Reader.
+4. Discover important communities and identify suspicious people through Resume Reader and Email Reader.
 5. Go on for another round of exploration.
 6. Present our find with the help of Gephi.
 \par
 And with rounds of explaration, we can finally get enough information to answer questions.
 
 \section{Conclusion}
-\projectname\ provide the user the ability to grab important events from huge volume of news ariticles and the ability to analysis conflict data of employee resume. And with the help of \projectname, we successfully find out a group of GAStech people are suspicious to the kidnap event. \todo{Add more conclusion.}
-
+\projectname\ provides the user with the ability to grab important events from huge volume of news ariticles and the ability to analyze conflicting data of employee resume. And with the help of \projectname, we successfully find out a group of GAStech people who are suspicious to the kidnap event. Our methods emphasize analyzing various sources of text data, and in the future we will focus on integrating the visualizing tools in \projectname to enable users to switch views conveniently when they find some people suspicious through one tool, and want to confirm their suspicions by data from another source.
+\todo{Add more conclusion.}
 %% if specified like this the section will be ommitted in review mode
 \acknowledgements{
 We have special thanks to Miss Dong Liu for her dedicated exploration with raw materials to inspire our design on visualization tools.
